@@ -212,6 +212,7 @@ See `.specify/memory/constitution.md` for code quality, testing, performance, se
 ## Active Technologies
 - Python 3.13+ + Standard library only (no external dependencies for core functionality) (001-console-app)
 - In-memory (Python dict/list) - no database or file persistence (001-console-app)
+- N/A for this feature (no DB, no persistence; health endpoint only) (002-web-scaffold)
 
 ## Recent Changes
 - 001-console-app: Added Python 3.13+ + Standard library only (no external dependencies for core functionality)

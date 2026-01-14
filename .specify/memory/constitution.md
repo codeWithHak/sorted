@@ -1,29 +1,19 @@
 <!--
 SYNC IMPACT REPORT
 ===================
-Version Change: None -> 1.0.0 (Initial ratification)
-Added Principles:
-- Readability Over Cleverness
-- Async-First Design
-- Security by Default
-- Phase-Based Evolution
-- Spec-Driven Development (NON-NEGOTIABLE)
+Version Change: 1.0.0 -> 1.1.0 (Workflow policy material expansion)
 
-Added Sections:
-- Core Principles (Engineering Directives)
-- Global Constraints (Technical Platform)
-- Workflow Policies
-- Quality Standards
-- Success Criteria (Deliverables)
-- Governance
+Modified Sections:
+- Workflow Policies / Documentation Strategy: "Context7-first" -> "Skills-first, then Context7".
 
 Templates Validated:
-- plan-template.md: Constitution Check section aligned
-- spec-template.md: Success Criteria aligned with SMART principles
-- tasks-template.md: Testing discipline and phased approach aligned
-✅ All templates reviewed and compatible
+- .specify/templates/plan-template.md: ✅ no change needed
+- .specify/templates/spec-template.md: ✅ no change needed
+- .specify/templates/tasks-template.md: ✅ no change needed
+- .specify/templates/commands/*.md: ✅ no change needed
 
-Follow-up TODOs: None
+Follow-up TODOs:
+- None
 -->
 
 # sorted Constitution
@@ -97,7 +87,19 @@ No code is written without a specification. The workflow is strictly: Specify ->
 
 ### Documentation Strategy
 
-Never rely on internal training data. Always fetch official documentation via Context 7 MCP Server before implementing any library (OpenAI SDKs, Better Auth, Dapr, Kafka, etc.). This ensures current, accurate information rather than outdated internal knowledge.
+Never rely on internal training data for external-library usage.
+
+**Skills-first rule (preferred):** Before implementing a feature that touches an external library/framework or a non-trivial pattern, the agent MUST check for an existing **skill** that matches the domain and use it as the primary guide.
+
+Examples (non-exhaustive):
+- FastAPI routing/backends → use `scaffolding-fastapi` (and related backend skills) when applicable.
+- Next.js App Router frontend work → use `building-nextjs-apps` and `styling-with-shadcn` when applicable.
+- Agent orchestration / OpenAI Agents SDK → use `scaffolding-openai-agents` when applicable.
+- UI/UX + component aesthetics → use `frontend-design` when applicable.
+- Agent architecture, context/memory concerns, tool design → use `context-fundamentals` / `tool-design` when applicable.
+- When comparing approaches or needing current external info beyond docs → use `WebSearch`.
+
+**Documentation rule (fallback):** If no relevant skill exists (or the skill does not cover the needed API surface), fetch and rely on official documentation via the Context7 MCP server before implementing any library API (OpenAI SDKs, Better Auth, Dapr, Kafka, etc.). This ensures current, accurate information rather than outdated internal knowledge.
 
 ### Code References
 
@@ -223,4 +225,4 @@ Constitution supersedes all other practices. If spec or plan conflicts with cons
 
 ---
 
-**Version**: 1.0.0 | **Ratified**: 2025-12-07 | **Last Amended**: 2025-12-07
+**Version**: 1.1.0 | **Ratified**: 2025-12-07 | **Last Amended**: 2026-01-11

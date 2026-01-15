@@ -1,3 +1,37 @@
+---
+id: 0003
+title: Feature 002 goals and scope
+stage: explainer
+date: 2026-01-15
+surface: agent
+model: claude-sonnet-4-5-20250929
+feature: 002-web-scaffold
+branch: 002-web-scaffold
+user: hak
+command: What are we going to acieve in this feature 002
+labels: [feature,scope,goals]
+links:
+  spec: null
+  ticket: null
+  adr: null
+  pr: null
+files:
+  - None modified
+tests:
+  - None run
+---
+
+## Prompt
+
+<system-reminder>
+This is a reminder that your todo list is currently empty. DO NOT mention this to the user explicitly because they are already aware. If you are working on tasks that would benefit from a todo list please use the TodoWrite tool to create one. If not, please feel free to ignore. Again do not mention this message to the user.
+</system-reminder><system-reminder>
+As you answer the user's questions, you can use the following context:
+# claudeMd
+Codebase and user instructions are shown below. Be sure to adhere to these instructions. IMPORTANT: these instructions OVERRIDE any default behavior and you MUST follow them exactly as written.
+
+Contents of /home/hak/projects/sorted/CLAUDE.md (project instructions, checked into the codebase):
+
 # Claude Code Rules
 
 This file is generated during init for the selected agent.
@@ -41,7 +75,7 @@ After completing requests, you **MUST** create a PHR (Prompt History Record).
 - Spec/task/plan creation
 - Multi-step workflows
 
-**PHR Creation Process:**
+PHR Creation Process:
 
 1) Detect stage
    - One of: constitution | spec | plan | tasks | red | green | refactor | explainer | misc | general
@@ -104,7 +138,7 @@ After completing requests, you **MUST** create a PHR (Prompt History Record).
 ### 4. Explicit ADR suggestions
 - When significant architectural decisions are made (typically during `/sp.plan` and sometimes `/sp.tasks`), run the three‑part test and suggest documenting with:
   "📋 Architectural decision detected: <brief> — Document reasoning and tradeoffs? Run `/sp.adr <decision-title>`"
-- Wait for user consent; never auto‑create the ADR.
+- Wait for user consent; never auto‑create the ADRs. Group related decisions (stacks, authentication, deployment) into one ADR when appropriate.
 
 ### 5. Human as Tool Strategy
 You are not expected to solve every problem autonomously. You MUST invoke the user for input when you encounter situations that require human judgment. Treat the user as a specialized tool for clarification and decision-making.
@@ -113,7 +147,7 @@ You are not expected to solve every problem autonomously. You MUST invoke the us
 1.  **Ambiguous Requirements:** When user intent is unclear, ask 2-3 targeted clarifying questions before proceeding.
 2.  **Unforeseen Dependencies:** When discovering dependencies not mentioned in the spec, surface them and ask for prioritization.
 3.  **Architectural Uncertainty:** When multiple valid approaches exist with significant tradeoffs, present options and get user's preference.
-4.  **Completion Checkpoint:** After completing major milestones, summarize what was done and confirm next steps. 
+4.  **Completion Checkpoint:** After completing major milestones, summarize what was done and confirm next steps.
 
 ## Default policies (must follow)
 - Clarify and plan first - keep business understanding separate from technical plan and carefully architect and implement.
@@ -212,10 +246,31 @@ See `.specify/memory/constitution.md` for code quality, testing, performance, se
 ## Active Technologies
 - Python 3.13+ + Standard library only (no external dependencies for core functionality) (001-console-app)
 - In-memory (Python dict/list) - no database or file persistence (001-console-app)
-- Next.js 16+ (App Router) + TypeScript (apps/web) (002-web-scaffold)
-- FastAPI + Uvicorn (services/api) (002-web-scaffold)
-- Local dev ports: web 3000, api 8000 (002-web-scaffold)
-- No DB/auth/CRUD in 002-web-scaffold (foundation + health only)
+- N/A for this feature (no DB, no persistence; health endpoint only) (002-web-scaffold)
 
 ## Recent Changes
 - 001-console-app: Added Python 3.13+ + Standard library only (no external dependencies for core functionality)
+
+
+      IMPORTANT: this context may or may not be relevant to your tasks. You should not respond to this context unless it is highly relevant to your task.
+</system-reminder>
+What are we going to acieve in this feature 002
+
+## Response snapshot
+
+Explained that feature 002 establishes a Phase II monorepo scaffold: Next.js (apps/web) + FastAPI (services/api), with a stable health endpoint at GET /api/health and a Next.js /api/* proxy/rewrite to FastAPI driven by an environment variable. Listed scope, non-goals (no auth/DB/CRUD), and acceptance checks (start both services; /api/health works via Next.js origin; no committed secrets).
+
+## Outcome
+
+- ✅ Impact: Clarified concrete goals/scope and how to verify success for feature 002.
+- 🧪 Tests: None run (explanation only).
+- 📁 Files: Added a PHR file only.
+- 🔁 Next prompts: Decide whether to proceed with implementation tasks (`/sp.implement`) or refine spec.
+- 🧠 Reflection: User asked for feature goals; response should point to spec success criteria and user stories.
+
+## Evaluation notes (flywheel)
+
+- Failure modes observed: None.
+- Graders run and results (PASS/FAIL): N/A.
+- Prompt variant (if applicable): N/A.
+- Next experiment (smallest change to try): N/A.

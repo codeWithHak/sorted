@@ -29,11 +29,11 @@ description: "Task list for Web Monorepo Scaffold feature implementation"
 
 **Purpose**: Create directory structure and initialize projects
 
-- [ ] T001 Create `apps/` and `services/` directories at repository root
-- [ ] T002 [P] Initialize Next.js project in `apps/web` with App Router and TypeScript
-- [ ] T003 [P] Initialize Python FastAPI project in `services/api` with `uv` and separate `pyproject.toml`
-- [ ] T004 [P] Create `apps/web/.env.example` with `API_BASE_URL=http://localhost:8000` (no secrets committed)
-- [ ] T005 [P] Create `services/api/.gitignore` for Python artifacts (`.venv/`, `__pycache__/`, etc.)
+- [x] T001 Create `apps/` and `services/` directories at repository root
+- [x] T002 [P] Initialize Next.js project in `apps/web` with App Router and TypeScript
+- [x] T003 [P] Initialize Python FastAPI project in `services/api` with `uv` and separate `pyproject.toml`
+- [x] T004 [P] Create `apps/web/.env.example` with `API_BASE_URL=http://localhost:8000` (no secrets committed)
+- [x] T005 [P] Create `services/api/.gitignore` for Python artifacts (`.venv/`, `__pycache__/`, etc.)
 
 ---
 
@@ -43,12 +43,12 @@ description: "Task list for Web Monorepo Scaffold feature implementation"
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete
 
-- [ ] T006 Implement `services/api/src/api/main.py` with FastAPI app skeleton and async health handler returning `{ "status": "ok" }`
-- [ ] T007 [P] Configure `services/api/pyproject.toml` with FastAPI dependency and uvicorn dev server
-- [ ] T008 [P] Configure `apps/web/tsconfig.json` for TypeScript with Next.js App Router paths
-- [ ] T009 [P] Configure `apps/web/next.config.ts` with `rewrites()` to forward `/api/:path*` → `${API_BASE_URL}/:path*`
-- [ ] T010 [P] Create `apps/web/app/page.tsx` with minimal home page (e.g., heading "sorted" and brief status message)
-- [ ] T011 [P] Add `dev` script to `apps/web/package.json` for Next.js dev server on port 3000
+- [x] T006 Implement `services/api/src/api/main.py` with FastAPI app skeleton and async health handler returning `{ "status": "ok" }`
+- [x] T007 [P] Configure `services/api/pyproject.toml` with FastAPI dependency and uvicorn dev server
+- [x] T008 [P] Configure `apps/web/tsconfig.json` for TypeScript with Next.js App Router paths
+- [x] T009 [P] Configure `apps/web/next.config.ts` with `rewrites()` to forward `/api/:path*` → `${API_BASE_URL}/:path*`
+- [x] T010 [P] Create `apps/web/app/page.tsx` with minimal home page (e.g., heading "sorted" and brief status message)
+- [x] T011 [P] Add `dev` script to `apps/web/package.json` for Next.js dev server on port 3000
 
 **Checkpoint**: Foundation ready - user story implementation can now begin in parallel
 
@@ -62,10 +62,10 @@ description: "Task list for Web Monorepo Scaffold feature implementation"
 
 ### Manual Verification for User Story 1
 
-- [ ] T012 [US1] Start API server from repo root: `cd services/api && uv run uvicorn api.main:app --reload --port 8000`
-- [ ] T013 [US1] Verify API health directly: `curl -sS http://localhost:8000/health` returns `{"status":"ok"}` (acceptance scenario 2)
-- [ ] T014 [US1] Start web server from repo root: `cd apps/web && export API_BASE_URL="http://localhost:8000" && npm run dev`
-- [ ] T015 [US1] Verify web home page loads in browser at http://localhost:3000 (acceptance scenario 1)
+- [x] T012 [US1] Start API server from repo root: `cd services/api && uv run uvicorn src.api.main:app --reload --port 8000`
+- [x] T013 [US1] Verify API health directly: `curl -sS http://localhost:8000/health` returns `{"status":"ok"}` (acceptance scenario 2)
+- [x] T014 [US1] Start web server from repo root: `cd apps/web && export API_BASE_URL="http://localhost:8000" && npm install && npm run dev`
+- [x] T015 [US1] Verify web home page loads in browser at http://localhost:3000 (acceptance scenario 1)
 
 **Checkpoint**: At this point, User Story 1 should be fully functional and testable independently
 
@@ -79,9 +79,9 @@ description: "Task list for Web Monorepo Scaffold feature implementation"
 
 ### Manual Verification for User Story 2
 
-- [ ] T016 [US2] With both servers running, request proxy path: `curl -sS http://localhost:3000/api/health`
-- [ ] T017 [US2] Verify response matches API health contract: `{"status":"ok"}` (acceptance scenario 1)
-- [ ] T018 [US2] Verify no `/api/*` route handlers exist in `apps/web/app/api/` (FR-004 check)
+- [x] T016 [US2] With both servers running, request proxy path: `curl -sS http://localhost:3000/api/health`
+- [x] T017 [US2] Verify response matches API health contract: `{"status":"ok"}` (acceptance scenario 1)
+- [x] T018 [US2] Verify no `/api/*` route handlers exist in `apps/web/app/api/` (FR-004 check)
 
 **Checkpoint**: At this point, User Stories 1 AND 2 should both work independently
 
@@ -95,9 +95,9 @@ description: "Task list for Web Monorepo Scaffold feature implementation"
 
 ### Contract Validation for User Story 3
 
-- [ ] T019 [P] [US3] Verify `services/api/src/api/main.py` health response matches `specs/002-web-scaffold/contracts/health.openapi.yaml`
-- [ ] T020 [P] [US3] Verify response includes required field `status` with value `"ok"` (acceptance scenario 1)
-- [ ] T021 [P] [US3] Verify OpenAPI contract matches implementation (status code 200, JSON content-type)
+- [x] T019 [P] [US3] Verify `services/api/src/api/main.py` health response matches `specs/002-web-scaffold/contracts/health.openapi.yaml`
+- [x] T020 [P] [US3] Verify response includes required field `status` with value `"ok"` (acceptance scenario 1)
+- [x] T021 [P] [US3] Verify OpenAPI contract matches implementation (status code 200, JSON content-type)
 
 **Checkpoint**: All user stories should now be independently functional
 
@@ -107,10 +107,10 @@ description: "Task list for Web Monorepo Scaffold feature implementation"
 
 **Purpose**: Improvements that affect multiple user stories
 
-- [ ] T022 [P] Update `CLAUDE.md` to reflect Phase II technologies (Next.js 16+ App Router, FastAPI, ports 3000/8000)
-- [ ] T023 [P] Create `apps/web/README.md` with web dev server startup instructions
-- [ ] T024 [P] Create `services/api/README.md` with API dev server startup instructions
-- [ ] T025 Run quickstart.md validation end-to-end (all three steps pass)
+- [x] T022 [P] Update `CLAUDE.md` to reflect Phase II technologies (Next.js 16+ App Router, FastAPI, ports 3000/8000)
+- [x] T023 [P] Create `apps/web/README.md` with web dev server startup instructions
+- [x] T024 [P] Create `services/api/README.md` with API dev server startup instructions
+- [x] T025 Run quickstart.md validation end-to-end (all three steps pass)
 
 ---
 

@@ -45,7 +45,7 @@ CONSTITUTION:
   - Project Structure: Monorepo with clear separation of phases
 
   Workflow Policies:
-  - Documentation Strategy: Never rely on internal training data. Always fetch official documentation via Context 7 MCP Server before implementing any library (OpenAI SDKs, Better Auth, Dapr, Kafka, etc.).
+  - Documentation Strategy: Never rely on internal training data. First Check Relevent skills if not found then Always fetch official documentation via Context 7 MCP Server before implementing any library (OpenAI SDKs, Better Auth, Dapr, Kafka, etc.).
   - Code References: All code changes must reference source location (file:line) for context and traceability.
   - Git Workflow: Each phase submission creates a tagged release. PRs must reference specs and tasks.
   - Testing: Unit tests for business logic, integration tests for API boundaries, end-to-end tests for critical user flows.

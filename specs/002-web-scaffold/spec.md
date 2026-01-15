@@ -9,7 +9,7 @@
 
 ### Session 2026-01-14
 
-- Q: Should the FastAPI health endpoint be `/api/health` or `/health`? → A: FastAPI serves health at `GET /api/health`.
+- Q: Should the FastAPI health endpoint be `/api/health` or `/health`? → A: FastAPI serves health at `GET /health` (direct), and Next.js rewrites `GET /api/health` (web origin) → `${API_BASE_URL}/health`.
 - Q: When FastAPI is down, what should `/api/health` return? → A: A 502/connection error from the proxy (no masking).
 
 ## User Scenarios & Testing *(mandatory)*
@@ -69,7 +69,7 @@ As a developer, I have a stable health response contract so future features can 
 
 - **FR-001**: The repository MUST include a Phase II monorepo layout with `apps/web` and `services/api` while keeping existing Phase I code under `src/` intact.
 - **FR-002**: The frontend MUST be a Next.js App Router application in `apps/web` and MUST render a minimal home page.
-- **FR-003**: The backend MUST be a FastAPI service in `services/api` and MUST expose a health endpoint at `GET /api/health` that returns a stable JSON response.
+- **FR-003**: The backend MUST be a FastAPI service in `services/api` and MUST expose a health endpoint at `GET /health` that returns a stable JSON response.
 - **FR-004**: FastAPI MUST be the owner of `/api/*` routes; the frontend MUST NOT implement `/api/*` route handlers for this feature.
 - **FR-005**: The frontend MUST proxy/rewrite requests from `/api/:path*` (on the web origin) to the FastAPI service in local development.
 - **FR-006**: The FastAPI target base URL for the proxy/rewrite MUST be configurable via environment variables (not hardcoded).

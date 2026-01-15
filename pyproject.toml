@@ -49,3 +49,8 @@ explicit_package_bases = true
 warn_redundant_casts = true
 warn_unused_configs = true
 warn_unused_ignores = true
+
+[tool.uv.workspace]
+members = [
+    "services/api",
+]

@@ -102,8 +102,8 @@
 
 ### Implementation for User Story 5
 
-- [ ] T019 [US5] Verify `git log --oneline | head -10` shows deletion commits (not rebase markers)
-- [ ] T020 [US5] Verify `git diff 002-web-scaffold..003-project-restructure --stat` shows expected file removals
+- [X] T019 [US5] Verify `git log --oneline | head -10` shows deletion commits (not rebase markers)
+- [X] T020 [US5] Verify `git diff 002-web-scaffold..003-project-restructure --stat` shows expected file removals
 
 **Checkpoint**: Git history intact and traceable
 
@@ -113,10 +113,10 @@
 
 **Purpose**: Final commit and validation
 
-- [ ] T021 Stage `pyproject.toml` changes with `git add pyproject.toml`
-- [ ] T022 Create commit with descriptive message per quickstart.md
-- [ ] T023 Run all verification checks from quickstart.md Post-Implementation section
-- [ ] T024 Update spec status from "Draft" to "Complete" in specs/003-project-restructure/spec.md
+- [X] T021 Stage `pyproject.toml` changes with `git add pyproject.toml`
+- [X] T022 Create commit with descriptive message per quickstart.md
+- [X] T023 Run all verification checks from quickstart.md Post-Implementation section
+- [X] T024 Update spec status from "Draft" to "Complete" in specs/003-project-restructure/spec.md
 
 ---
 

@@ -59,10 +59,10 @@
 
 ### Implementation for User Story 1
 
-- [ ] T012 [US1] Create create_task function in src/services/task_service.py
-- [ ] T013 [US1] Create handle_add command in src/cli/commands.py
-- [ ] T014 [US1] Add title validation (not empty/whitespace) in handle_add
-- [ ] T015 [US1] Integrate add command with parser routing in src/cli/parser.py
+- [x] T012 [US1] Create create_task function in src/services/task_service.py
+- [x] T013 [US1] Create handle_add command in src/cli/commands.py
+- [x] T014 [US1] Add title validation (not empty/whitespace) in handle_add
+- [x] T015 [US1] Integrate add command with parser routing in src/cli/parser.py
 
 **Checkpoint**: Users can create tasks - MVP core functionality delivered
 
@@ -76,11 +76,11 @@
 
 ### Implementation for User Story 2
 
-- [ ] T016 [US2] Create list_tasks function in src/services/task_service.py
-- [ ] T017 [US2] Create handle_list command in src/cli/commands.py
-- [ ] T018 [US2] Create format_task display function in src/lib/display.py
-- [ ] T019 [US2] Add status indicators ([✓] for completed, [ ] for pending) in display
-- [ ] T020 [US2] Handle empty list case with appropriate message
+- [x] T016 [US2] Create list_tasks function in src/services/task_service.py
+- [x] T017 [US2] Create handle_list command in src/cli/commands.py
+- [x] T018 [US2] Create format_task display function in src/lib/display.py
+- [x] T019 [US2] Add status indicators ([✓] for completed, [ ] for pending) in display
+- [x] T020 [US2] Handle empty list case with appropriate message
 
 **Checkpoint**: Users can view all tasks - combined with Add Task, core MVP complete
 
@@ -94,9 +94,9 @@
 
 ### Implementation for User Story 6
 
-- [ ] T021 [US6] Create handle_help command in src/cli/commands.py
-- [ ] T022 [US6] Display all commands with usage examples
-- [ ] T023 [US6] Add help suggestion to invalid command error messages
+- [x] T021 [US6] Create handle_help command in src/cli/commands.py
+- [x] T022 [US6] Display all commands with usage examples
+- [x] T023 [US6] Add help suggestion to invalid command error messages
 
 **Checkpoint**: New users can discover available functionality
 
@@ -110,10 +110,10 @@
 
 ### Implementation for User Story 3
 
-- [ ] T024 [US3] Create toggle_complete function in src/services/task_service.py
-- [ ] T025 [US3] Create handle_complete command in src/cli/commands.py
-- [ ] T026 [US3] Add task ID existence check in handle_complete
-- [ ] T027 [US3] Update display to reflect status change
+- [x] T024 [US3] Create toggle_complete function in src/services/task_service.py
+- [x] T025 [US3] Create handle_complete command in src/cli/commands.py
+- [x] T026 [US3] Add task ID existence check in handle_complete
+- [x] T027 [US3] Update display to reflect status change
 
 **Checkpoint**: Users can track task completion progress
 
@@ -127,10 +127,10 @@
 
 ### Implementation for User Story 4
 
-- [ ] T028 [US4] Create update_task function in src/services/task_service.py
-- [ ] T029 [US4] Create handle_update command in src/cli/commands.py
-- [ ] T030 [US4] Add parsing for title and optional description parameters
-- [ ] T031 [US4] Add task ID existence check in handle_update
+- [x] T028 [US4] Create update_task function in src/services/task_service.py
+- [x] T029 [US4] Create handle_update command in src/cli/commands.py
+- [x] T030 [US4] Add parsing for title and optional description parameters
+- [x] T031 [US4] Add task ID existence check in handle_update
 
 **Checkpoint**: Users can correct mistakes or add details to existing tasks
 
@@ -144,10 +144,10 @@
 
 ### Implementation for User Story 5
 
-- [ ] T032 [US5] Create delete_task function in src/services/task_service.py
-- [ ] T033 [US5] Create handle_delete command in src/cli/commands.py
-- [ ] T034 [US5] Add user confirmation prompt (yes/no) before deletion
-- [ ] T035 [US5] Add task ID existence check in handle_delete
+- [x] T032 [US5] Create delete_task function in src/services/task_service.py
+- [x] T033 [US5] Create handle_delete command in src/cli/commands.py
+- [x] T034 [US5] Add user confirmation prompt (yes/no) before deletion
+- [x] T035 [US5] Add task ID existence check in handle_delete
 
 **Checkpoint**: Users can remove unwanted tasks with confirmation safety
 
@@ -157,13 +157,13 @@
 
 **Purpose**: Improvements that affect multiple user stories
 
-- [ ] T036 [P] Create README.md with installation, usage, and project structure documentation
-- [ ] T037 [P] Add descriptive docstrings to all public functions in src/services/task_service.py
-- [ ] T038 [P] Add descriptive docstrings to all command handlers in src/cli/commands.py
-- [ ] T039 [P] Add descriptive docstrings to utility functions in src/lib/display.py
-- [ ] T040 [P] Add descriptive docstrings to Task dataclass in src/models/task.py
-- [ ] T041 [P] Ensure all command error messages are user-friendly and suggest help
-- [ ] T042 [P] Verify all functions follow KISS principle (simple, readable code)
+- [x] T036 [P] Create README.md with installation, usage, and project structure documentation
+- [x] T037 [P] Add descriptive docstrings to all public functions in src/services/task_service.py
+- [x] T038 [P] Add descriptive docstrings to all command handlers in src/cli/commands.py
+- [x] T039 [P] Add descriptive docstrings to utility functions in src/lib/display.py
+- [x] T040 [P] Add descriptive docstrings to Task dataclass in src/models/task.py
+- [x] T041 [P] Ensure all command error messages are user-friendly and suggest help
+- [x] T042 [P] Verify all functions follow KISS principle (simple, readable code)
 
 ---
 

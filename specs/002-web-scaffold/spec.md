@@ -2,7 +2,7 @@
 
 **Feature Branch**: `002-web-scaffold`
 **Created**: 2026-01-10
-**Status**: Draft
+**Status**: Complete
 **Input**: User description: "Establish the Phase II monorepo foundation for sorted by adding a Next.js (App Router, TypeScript) frontend under apps/web and a Python FastAPI backend under services/api, wired together in local development via a /api/* proxy/rewrite to FastAPI. Prove end-to-end wiring before auth, DB, or task CRUD."
 
 ## Clarifications

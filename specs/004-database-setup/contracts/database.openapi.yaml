@@ -1,0 +1,141 @@
+openapi: 3.1.0
+info:
+  title: Sorted Database Schema Contract
+  version: 1.0.0
+  description: |
+    Database schema definitions for the sorted todo application.
+    This contract defines the structure of database entities, not HTTP APIs.
+
+components:
+  schemas:
+    User:
+      type: object
+      description: Application user who can own and manage tasks
+      required:
+        - id
+        - email
+        - hashed_password
+        - created_at
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Client-generated unique identifier
+          example: "550e8400-e29b-41d4-a716-446655440000"
+        email:
+          type: string
+          format: email
+          maxLength: 255
+          description: User's email address (unique)
+          example: "user@example.com"
+        hashed_password:
+          type: string
+          maxLength: 255
+          description: Bcrypt-hashed password (never exposed in API)
+          example: "$2b$12$..."
+        created_at:
+          type: string
+          format: date-time
+          description: Account creation timestamp
+          example: "2026-02-05T10:30:00Z"
+
+    Task:
+      type: object
+      description: Todo item owned by a user
+      required:
+        - id
+        - title
+        - completed
+        - is_deleted
+        - user_id
+        - created_at
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Client-generated unique identifier
+          example: "660e8400-e29b-41d4-a716-446655440001"
+        title:
+          type: string
+          maxLength: 200
+          minLength: 1
+          description: Task title (required)
+          example: "Buy groceries"
+        description:
+          type: string
+          maxLength: 2000
+          nullable: true
+          description: Optional task description
+          example: "Milk, eggs, bread"
+        completed:
+          type: boolean
+          default: false
+          description: Task completion status
+        is_deleted:
+          type: boolean
+          default: false
+          description: Soft delete flag (true = deleted)
+        user_id:
+          type: string
+          format: uuid
+          description: Reference to owning User
+          example: "550e8400-e29b-41d4-a716-446655440000"
+        created_at:
+          type: string
+          format: date-time
+          description: Task creation timestamp
+          example: "2026-02-05T11:00:00Z"
+
+    DatabaseConfig:
+      type: object
+      description: Database connection configuration
+      required:
+        - url
+        - pool_size
+        - max_overflow
+      properties:
+        url:
+          type: string
+          format: uri
+          description: PostgreSQL connection string (asyncpg format)
+          example: "postgresql+asyncpg://user:pass@host/db?sslmode=verify-full"
+        pool_size:
+          type: integer
+          minimum: 1
+          maximum: 20
+          default: 5
+          description: Base connection pool size
+        max_overflow:
+          type: integer
+          minimum: 0
+          maximum: 50
+          default: 10
+          description: Maximum connections beyond pool_size
+        pool_pre_ping:
+          type: boolean
+          default: true
+          description: Validate connections before use
+        pool_recycle:
+          type: integer
+          minimum: 0
+          default: 3600
+          description: Seconds before recycling connections
+
+    HealthCheck:
+      type: object
+      description: Database health check response
+      required:
+        - status
+      properties:
+        status:
+          type: string
+          enum: [ok, error]
+          description: Database connection status
+        latency_ms:
+          type: number
+          description: Query latency in milliseconds
+          example: 45.2
+        error:
+          type: string
+          nullable: true
+          description: Error message if status is error

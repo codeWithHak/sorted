@@ -216,6 +216,8 @@ See `.specify/memory/constitution.md` for code quality, testing, performance, se
 - FastAPI + Uvicorn (services/api) (002-web-scaffold)
 - Local dev ports: web 3000, api 8000 (002-web-scaffold)
 - No DB/auth/CRUD in 002-web-scaffold (foundation + health only)
+- Python 3.13+ + FastAPI, SQLModel, SQLAlchemy 2.0+, asyncpg (004-database-setup)
+- Neon Serverless PostgreSQL (with connection pooling) (004-database-setup)
 
 ## Recent Changes
 - 001-console-app: Added Python 3.13+ + Standard library only (no external dependencies for core functionality)

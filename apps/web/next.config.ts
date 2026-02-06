@@ -10,7 +10,8 @@ const nextConfig: NextConfig = {
 
     return [
       {
-        source: "/api/:path*",
+        // Proxy all /api/* requests to FastAPI EXCEPT /api/auth/* (handled by Better Auth)
+        source: "/api/:path((?!auth).*)",
         destination: `${apiBaseUrl}/:path*`,
       },
     ];

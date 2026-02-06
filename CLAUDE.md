@@ -218,6 +218,8 @@ See `.specify/memory/constitution.md` for code quality, testing, performance, se
 - No DB/auth/CRUD in 002-web-scaffold (foundation + health only)
 - Python 3.13+ + FastAPI, SQLModel, SQLAlchemy 2.0+, asyncpg (004-database-setup)
 - Neon Serverless PostgreSQL (with connection pooling) (004-database-setup)
+- TypeScript (Next.js 16+, frontend), Python 3.13+ (FastAPI, backend) (005-auth)
+- Neon Serverless PostgreSQL (shared between frontend auth and backend API) (005-auth)
 
 ## Recent Changes
 - 001-console-app: Added Python 3.13+ + Standard library only (no external dependencies for core functionality)

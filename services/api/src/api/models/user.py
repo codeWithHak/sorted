@@ -1,13 +1,13 @@
 """
 User model for the sorted todo application.
 
-Represents an application user who can own and manage tasks.
+Represents an application user managed by Better Auth.
 """
 
 import uuid
 from datetime import datetime
 
-from sqlalchemy import Column, String
+from sqlalchemy import Boolean, Column, String
 from sqlalchemy.dialects.postgresql import UUID as PGUUID
 from sqlmodel import Field, SQLModel
 
@@ -16,11 +16,17 @@ class User(SQLModel, table=True):
     """
     User entity representing an application user.
 
+    Schema matches Better Auth's expected user table structure.
+    Better Auth manages user creation via its sign-up flow.
+
     Attributes:
-        id: UUID primary key (client-generated)
+        id: UUID primary key
+        name: User display name (required by Better Auth)
         email: Unique email address for authentication
-        hashed_password: Bcrypt-hashed password (never stored plain)
+        email_verified: Whether the user's email has been verified
+        image: Optional profile image URL
         created_at: Account creation timestamp
+        updated_at: Last update timestamp
     """
 
     __tablename__ = "users"
@@ -29,8 +35,13 @@ class User(SQLModel, table=True):
         default_factory=uuid.uuid4,
         sa_column=Column(PGUUID(as_uuid=True), primary_key=True),
     )
+    name: str = Field(sa_column=Column(String(255), nullable=False, default=""))
     email: str = Field(
         sa_column=Column(String(255), unique=True, nullable=False, index=True)
     )
-    hashed_password: str = Field(sa_column=Column(String(255), nullable=False))
+    email_verified: bool = Field(
+        sa_column=Column(Boolean, nullable=False, default=False)
+    )
+    image: str | None = Field(default=None, sa_column=Column(String(500), nullable=True))
     created_at: datetime = Field(default_factory=datetime.utcnow, nullable=False)
+    updated_at: datetime = Field(default_factory=datetime.utcnow, nullable=False)

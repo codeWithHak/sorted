@@ -7,6 +7,7 @@ export const auth = betterAuth({
   baseURL: process.env.BETTER_AUTH_URL,
   database: new Pool({
     connectionString: process.env.AUTH_DATABASE_URL,
+    connectionTimeoutMillis: 30000,
   }),
   emailAndPassword: {
     enabled: true,

@@ -8,7 +8,7 @@ import uuid
 from datetime import datetime
 from typing import TYPE_CHECKING
 
-from sqlalchemy import Column, ForeignKey, String
+from sqlalchemy import Column, ForeignKey, Index, String
 from sqlmodel import Field, Relationship, SQLModel
 
 from src.api.models.types import GUID
@@ -34,6 +34,9 @@ class Task(SQLModel, table=True):
     """
 
     __tablename__ = "tasks"
+    __table_args__ = (
+        Index("ix_tasks_user_active_created", "user_id", "is_deleted", "created_at"),
+    )
 
     id: uuid.UUID = Field(
         default_factory=uuid.uuid4,

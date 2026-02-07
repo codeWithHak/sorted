@@ -53,11 +53,10 @@ def get_engine():
     """
     Get or create the async database engine.
 
-    Uses conservative pool settings for Neon serverless:
-    - pool_size=5: Base connections
-    - max_overflow=10: Burst capacity
-    - pool_pre_ping=True: Validate connections before use
-    - pool_recycle=3600: Reconnect hourly
+    Pool settings tuned for Neon serverless:
+    - pool_size=10: Base connections
+    - max_overflow=20: Burst capacity
+    - pool_recycle=1800: Reconnect every 30 min
     """
     global _engine
     if _engine is None:
@@ -66,10 +65,9 @@ def get_engine():
         _engine = create_async_engine(
             url,
             echo=False,
-            pool_size=5,
-            max_overflow=10,
-            pool_pre_ping=True,
-            pool_recycle=3600,
+            pool_size=10,
+            max_overflow=20,
+            pool_recycle=1800,
             connect_args=connect_args,
         )
     return _engine

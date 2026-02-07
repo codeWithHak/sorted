@@ -32,15 +32,20 @@ export function TaskModal({ isOpen, onClose, title, children }: TaskModalProps) 
         if (e.target === e.currentTarget) onClose();
       }}
     >
-      <div className="mx-4 max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-lg bg-white p-6 dark:bg-zinc-900">
+      <div
+        className="mx-4 max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-xl bg-white p-6"
+        style={{ boxShadow: "var(--shadow-warm)" }}
+      >
         <div className="mb-4 flex items-center justify-between">
           <h2 className="text-lg font-semibold">{title}</h2>
           <button
             onClick={onClose}
-            className="text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-200"
+            className="text-stone-400 hover:text-stone-600"
             aria-label="Close"
           >
-            ✕
+            <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
           </button>
         </div>
         {children}

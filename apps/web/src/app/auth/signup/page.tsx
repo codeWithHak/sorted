@@ -1,11 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { authClient } from "@/lib/auth-client";
 
-export default function SignUpPage() {
+function SignUpForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl") ?? "/dashboard";
@@ -44,7 +44,7 @@ export default function SignUpPage() {
     <main className="mx-auto flex min-h-screen max-w-sm flex-col justify-center gap-6 p-8 font-sans">
       <div>
         <h1 className="text-2xl font-semibold tracking-tight">Create account</h1>
-        <p className="mt-1 text-sm text-zinc-500">
+        <p className="mt-1 text-sm text-stone-500">
           Sign up to start using sorted.
         </p>
       </div>
@@ -58,7 +58,7 @@ export default function SignUpPage() {
             onChange={(e) => setName(e.target.value)}
             required
             autoComplete="name"
-            className="rounded-md border border-zinc-300 bg-transparent px-3 py-2 text-sm outline-none focus:border-zinc-500 dark:border-zinc-700 dark:focus:border-zinc-400"
+            className="rounded-md border border-stone-300 bg-transparent px-3 py-2 text-sm outline-none focus:border-stone-500"
           />
         </label>
 
@@ -70,7 +70,7 @@ export default function SignUpPage() {
             onChange={(e) => setEmail(e.target.value)}
             required
             autoComplete="email"
-            className="rounded-md border border-zinc-300 bg-transparent px-3 py-2 text-sm outline-none focus:border-zinc-500 dark:border-zinc-700 dark:focus:border-zinc-400"
+            className="rounded-md border border-stone-300 bg-transparent px-3 py-2 text-sm outline-none focus:border-stone-500"
           />
         </label>
 
@@ -83,13 +83,13 @@ export default function SignUpPage() {
             required
             minLength={8}
             autoComplete="new-password"
-            className="rounded-md border border-zinc-300 bg-transparent px-3 py-2 text-sm outline-none focus:border-zinc-500 dark:border-zinc-700 dark:focus:border-zinc-400"
+            className="rounded-md border border-stone-300 bg-transparent px-3 py-2 text-sm outline-none focus:border-stone-500"
           />
-          <span className="text-xs text-zinc-400">Minimum 8 characters</span>
+          <span className="text-xs text-stone-400">Minimum 8 characters</span>
         </label>
 
         {error && (
-          <p className="text-sm text-red-600 dark:text-red-400">
+          <p className="text-sm text-red-600">
             {error}{" "}
             {error.includes("already exists") && (
               <Link href="/auth/signin" className="underline">
@@ -102,18 +102,26 @@ export default function SignUpPage() {
         <button
           type="submit"
           disabled={loading}
-          className="mt-2 rounded-md bg-zinc-900 px-4 py-2 text-sm font-medium text-white hover:bg-zinc-800 disabled:opacity-50 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200"
+          className="mt-2 rounded-md bg-stone-900 px-4 py-2 text-sm font-medium text-white hover:bg-stone-800 disabled:opacity-50"
         >
           {loading ? "Creating account..." : "Create account"}
         </button>
       </form>
 
-      <p className="text-center text-sm text-zinc-500">
+      <p className="text-center text-sm text-stone-500">
         Already have an account?{" "}
-        <Link href="/auth/signin" className="text-zinc-900 underline dark:text-zinc-100">
+        <Link href="/auth/signin" className="text-stone-900 underline">
           Sign in
         </Link>
       </p>
     </main>
+  );
+}
+
+export default function SignUpPage() {
+  return (
+    <Suspense>
+      <SignUpForm />
+    </Suspense>
   );
 }

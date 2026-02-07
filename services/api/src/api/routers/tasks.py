@@ -70,24 +70,32 @@ async def list_tasks(
     session: AsyncSession = Depends(get_session),
 ) -> TaskListResponse:
     """List tasks for the authenticated user with pagination and filtering."""
-    base = select(Task).where(
+    conditions = [
         Task.user_id == uuid.UUID(current_user.sub),
         Task.is_deleted == False,  # noqa: E712
-    )
+    ]
     if completed is not None:
-        base = base.where(Task.completed == completed)
+        conditions.append(Task.completed == completed)
 
-    # Count total
-    count_q = select(func.count()).select_from(base.subquery())
-    total = (await session.execute(count_q)).scalar_one()
-
-    # Fetch page
-    rows_q = (
-        base.order_by(Task.created_at.desc())
+    # Single query: fetch page + total count via window function
+    total_col = func.count().over().label("total_count")
+    q = (
+        select(Task, total_col)
+        .where(*conditions)
+        .order_by(Task.created_at.desc())
         .offset((page - 1) * per_page)
         .limit(per_page)
     )
-    results = (await session.execute(rows_q)).scalars().all()
+    rows = (await session.execute(q)).all()
+
+    if rows:
+        total = rows[0].total_count
+        results = [row[0] for row in rows]
+    else:
+        # Page beyond total — count separately to still report correct total
+        count_q = select(func.count()).select_from(Task).where(*conditions)
+        total = (await session.execute(count_q)).scalar_one()
+        results = []
 
     total_pages = math.ceil(total / per_page) if total > 0 else 0
     return TaskListResponse(

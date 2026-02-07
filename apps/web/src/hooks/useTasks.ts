@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useEffect, useRef } from "react";
+import { useState, useCallback, useEffect, useRef, useTransition } from "react";
 import { apiFetch } from "@/lib/api-client";
 import type { Task, TaskListResponse, TaskCardData, GroupedTasks } from "@/lib/types/task";
 
@@ -33,7 +33,11 @@ export function useTasks(userId: string | undefined) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [highlightedTaskId, setHighlightedTaskId] = useState<string | null>(null);
-  const toggleTimers = useRef<Map<string, ReturnType<typeof setTimeout>>>(new Map());
+  const [isPending, startTransition] = useTransition();
+
+  // Ref to always have latest tasks (avoids stale closures)
+  const tasksRef = useRef(tasks);
+  tasksRef.current = tasks;
 
   const fetchTasks = useCallback(async () => {
     setLoading(true);
@@ -55,63 +59,124 @@ export function useTasks(userId: string | undefined) {
     fetchTasks();
   }, [userId, fetchTasks]);
 
-  const createTask = useCallback(async (title: string, description?: string) => {
-    const body: Record<string, string> = { title };
-    if (description) body.description = description;
+  const createTask = useCallback((title: string, description?: string) => {
+    const tempId = crypto.randomUUID();
+    const now = new Date().toISOString();
 
-    const res = await apiFetch("/tasks", {
-      method: "POST",
-      body: JSON.stringify(body),
-    });
-    if (!res.ok) throw new Error("Failed to create task");
-    await fetchTasks();
-  }, [fetchTasks]);
+    // Optimistic: add to UI immediately
+    const tempTask: TaskCardData = {
+      id: tempId,
+      title,
+      description: description ?? null,
+      completed: false,
+      created_at: now,
+      updated_at: now,
+      created_by: "user",
+      agent_id: null,
+    };
+    setTasks(prev => [tempTask, ...prev]);
+    setError("");
 
-  const toggleTask = useCallback((taskId: string) => {
-    setTasks((prev) =>
-      prev.map((t) => (t.id === taskId ? { ...t, completed: !t.completed } : t)),
-    );
-
-    const existing = toggleTimers.current.get(taskId);
-    if (existing) clearTimeout(existing);
-
-    const timer = setTimeout(async () => {
-      toggleTimers.current.delete(taskId);
+    // Persist in background
+    startTransition(async () => {
       try {
-        const task = tasks.find((t) => t.id === taskId);
-        if (!task) return;
-        const res = await apiFetch(`/tasks/${taskId}`, {
-          method: "PATCH",
-          body: JSON.stringify({ completed: !task.completed }),
+        const body: Record<string, string> = { title };
+        if (description) body.description = description;
+        const res = await apiFetch("/tasks", {
+          method: "POST",
+          body: JSON.stringify(body),
         });
         if (!res.ok) {
-          setTasks((prev) =>
-            prev.map((t) => (t.id === taskId ? { ...t, completed: !t.completed } : t)),
+          setTasks(prev => prev.filter(t => t.id !== tempId));
+          setError("Failed to create task");
+          return;
+        }
+        const created: Task = await res.json();
+        // Replace temp with server-confirmed task
+        setTasks(prev => prev.map(t => t.id === tempId ? toCardData(created) : t));
+      } catch {
+        setTasks(prev => prev.filter(t => t.id !== tempId));
+        setError("Failed to create task");
+      }
+    });
+  }, []);
+
+  const toggleTask = useCallback((taskId: string) => {
+    // Read current value from ref (avoids stale closure)
+    const task = tasksRef.current.find(t => t.id === taskId);
+    if (!task) return;
+    const newCompleted = !task.completed;
+
+    // Optimistic toggle
+    setTasks(prev =>
+      prev.map(t => t.id === taskId ? { ...t, completed: newCompleted } : t),
+    );
+
+    // Persist immediately (no debounce)
+    startTransition(async () => {
+      try {
+        const res = await apiFetch(`/tasks/${taskId}`, {
+          method: "PATCH",
+          body: JSON.stringify({ completed: newCompleted }),
+        });
+        if (!res.ok) {
+          // Revert
+          setTasks(prev =>
+            prev.map(t => t.id === taskId ? { ...t, completed: !newCompleted } : t),
           );
         }
       } catch {
-        await fetchTasks();
+        setTasks(prev =>
+          prev.map(t => t.id === taskId ? { ...t, completed: !newCompleted } : t),
+        );
       }
-    }, 300);
-    toggleTimers.current.set(taskId, timer);
-  }, [tasks, fetchTasks]);
-
-  const updateTask = useCallback(async (taskId: string, data: { title?: string; description?: string }) => {
-    const res = await apiFetch(`/tasks/${taskId}`, {
-      method: "PATCH",
-      body: JSON.stringify(data),
     });
-    if (!res.ok) throw new Error("Failed to update task");
-    await fetchTasks();
+  }, []);
+
+  const updateTask = useCallback((taskId: string, data: { title?: string; description?: string }) => {
+    // Optimistic update
+    setTasks(prev =>
+      prev.map(t => t.id === taskId ? { ...t, ...data, updated_at: new Date().toISOString() } : t),
+    );
+    setError("");
+
+    startTransition(async () => {
+      try {
+        const res = await apiFetch(`/tasks/${taskId}`, {
+          method: "PATCH",
+          body: JSON.stringify(data),
+        });
+        if (!res.ok) {
+          await fetchTasks(); // Revert by refetching
+          setError("Failed to update task");
+          return;
+        }
+        const updated: Task = await res.json();
+        setTasks(prev => prev.map(t => t.id === taskId ? toCardData(updated) : t));
+      } catch {
+        await fetchTasks();
+        setError("Failed to update task");
+      }
+    });
   }, [fetchTasks]);
 
-  const deleteTask = useCallback(async (taskId: string) => {
-    const res = await apiFetch(`/tasks/${taskId}`, {
-      method: "DELETE",
+  const deleteTask = useCallback((taskId: string) => {
+    // Optimistic: remove from UI immediately
+    setTasks(prev => prev.filter(t => t.id !== taskId));
+
+    startTransition(async () => {
+      try {
+        const res = await apiFetch(`/tasks/${taskId}`, { method: "DELETE" });
+        if (!res.ok && res.status !== 204) {
+          await fetchTasks(); // Revert by refetching
+          setError("Failed to delete task");
+        }
+      } catch {
+        await fetchTasks();
+        setError("Failed to delete task");
+      }
     });
-    if (!res.ok && res.status !== 204) throw new Error("Failed to delete task");
-    setTasks((prev) => prev.filter((t) => t.id !== taskId));
-  }, []);
+  }, [fetchTasks]);
 
   const highlightTask = useCallback((taskId: string) => {
     setHighlightedTaskId(taskId);
@@ -125,6 +190,7 @@ export function useTasks(userId: string | undefined) {
     groupedTasks: groupTasks(tasks),
     loading,
     error,
+    isPending,
     createTask,
     toggleTask,
     updateTask,

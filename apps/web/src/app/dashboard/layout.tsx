@@ -6,17 +6,15 @@ import { useSession, authClient } from "@/lib/auth-client";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { AppHeader } from "@/components/layout/AppHeader";
 import { AgentSidebar } from "@/components/sidebar/AgentSidebar";
+import { AgentActivityProvider, useAgentActivity } from "@/contexts/AgentActivityContext";
 import { agents } from "@/data/agents";
 
-export default function DashboardLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+function DashboardLayoutInner({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const { data: session } = useSession();
   const isMobile = useMediaQuery("(max-width: 1023px)");
   const [sidebarCollapsed, setSidebarCollapsed] = useState(true);
+  const { agentState } = useAgentActivity();
 
   async function handleSignOut() {
     await authClient.signOut();
@@ -27,7 +25,7 @@ export default function DashboardLayout({
     <div className="flex h-screen flex-col">
       <AppHeader
         userEmail={session?.user?.email ?? ""}
-        isAgentActive={false}
+        isAgentActive={agentState.status !== "idle"}
         onSignOut={handleSignOut}
         onToggleSidebar={() => setSidebarCollapsed(!sidebarCollapsed)}
       />
@@ -43,5 +41,17 @@ export default function DashboardLayout({
         {children}
       </div>
     </div>
+  );
+}
+
+export default function DashboardLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <AgentActivityProvider>
+      <DashboardLayoutInner>{children}</DashboardLayoutInner>
+    </AgentActivityProvider>
   );
 }

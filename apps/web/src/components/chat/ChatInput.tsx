@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 
 interface ChatInputProps {
   onSubmit: (content: string) => void;
@@ -10,6 +10,27 @@ interface ChatInputProps {
 export function ChatInput({ onSubmit, disabled = false }: ChatInputProps) {
   const [value, setValue] = useState("");
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  // T052: Handle mobile virtual keyboard to keep input visible
+  useEffect(() => {
+    const viewport = window.visualViewport;
+    if (!viewport) return;
+
+    function handleResize() {
+      if (!containerRef.current || !viewport) return;
+      // When keyboard opens, visualViewport height shrinks
+      const offsetFromBottom = window.innerHeight - (viewport.offsetTop + viewport.height);
+      containerRef.current.style.paddingBottom = offsetFromBottom > 0 ? `${offsetFromBottom}px` : "0px";
+    }
+
+    viewport.addEventListener("resize", handleResize);
+    viewport.addEventListener("scroll", handleResize);
+    return () => {
+      viewport.removeEventListener("resize", handleResize);
+      viewport.removeEventListener("scroll", handleResize);
+    };
+  }, []);
 
   function handleSubmit() {
     const trimmed = value.trim();
@@ -36,7 +57,7 @@ export function ChatInput({ onSubmit, disabled = false }: ChatInputProps) {
   }
 
   return (
-    <div className="border-t border-stone-200 bg-stone-50 p-3">
+    <div ref={containerRef} className="border-t border-stone-200 bg-stone-50 p-3">
       <div className="flex items-end gap-2 rounded-xl border border-stone-300 bg-white px-3 py-2">
         <textarea
           ref={textareaRef}

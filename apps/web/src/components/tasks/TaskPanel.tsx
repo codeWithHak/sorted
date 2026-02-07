@@ -11,6 +11,7 @@ import { TaskForm } from "./TaskForm";
 interface TaskPanelProps {
   groupedTasks: GroupedTasks;
   loading: boolean;
+  error: string;
   agentState: AgentActivityState;
   onToggle: (taskId: string) => void;
   onEdit: (taskId: string, data: { title?: string; description?: string }) => void;
@@ -22,6 +23,7 @@ interface TaskPanelProps {
 export function TaskPanel({
   groupedTasks,
   loading,
+  error,
   agentState,
   onToggle,
   onEdit,
@@ -48,6 +50,12 @@ export function TaskPanel({
           New Task
         </button>
       </div>
+
+      {error && (
+        <div className="mx-4 mt-2 rounded-lg bg-red-50 px-3 py-2 text-xs text-red-700">
+          {error}
+        </div>
+      )}
 
       <div className="flex-1 overflow-y-auto px-4 py-3">
         {loading && totalTasks === 0 ? (

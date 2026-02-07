@@ -26,7 +26,7 @@ def get_jwk_client() -> PyJWKClient:
         _jwk_client = PyJWKClient(
             settings.jwks_url,
             cache_jwk_set=True,
-            lifespan=300,  # Cache keys for 5 minutes
+            lifespan=86400,  # Cache keys for 24 hours (keys rarely rotate)
         )
     return _jwk_client
 

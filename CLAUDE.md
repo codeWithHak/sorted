@@ -220,6 +220,8 @@ See `.specify/memory/constitution.md` for code quality, testing, performance, se
 - Neon Serverless PostgreSQL (with connection pooling) (004-database-setup)
 - TypeScript (Next.js 16+, frontend), Python 3.13+ (FastAPI, backend) (005-auth)
 - Neon Serverless PostgreSQL (shared between frontend auth and backend API) (005-auth)
+- Python 3.13+ + FastAPI >=0.115.0, SQLModel >=0.0.22, SQLAlchemy[asyncio] >=2.0.35, asyncpg >=0.30.0, pydantic-settings >=2.6.0, PyJWT[crypto] >=2.8.0 (006-task-crud-api)
+- Neon Serverless PostgreSQL (existing, via asyncpg) (006-task-crud-api)
 
 ## Recent Changes
 - 001-console-app: Added Python 3.13+ + Standard library only (no external dependencies for core functionality)

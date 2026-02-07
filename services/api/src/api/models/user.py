@@ -8,8 +8,9 @@ import uuid
 from datetime import datetime
 
 from sqlalchemy import Boolean, Column, String
-from sqlalchemy.dialects.postgresql import UUID as PGUUID
 from sqlmodel import Field, SQLModel
+
+from src.api.models.types import GUID
 
 
 class User(SQLModel, table=True):
@@ -33,7 +34,7 @@ class User(SQLModel, table=True):
 
     id: uuid.UUID = Field(
         default_factory=uuid.uuid4,
-        sa_column=Column(PGUUID(as_uuid=True), primary_key=True),
+        sa_column=Column(GUID, primary_key=True),
     )
     name: str = Field(sa_column=Column(String(255), nullable=False, default=""))
     email: str = Field(

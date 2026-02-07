@@ -12,6 +12,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from src.api.auth import TokenPayload, get_current_user
 from src.api.config import get_settings
 from src.api.database import get_session, lifespan
+from src.api.routers.tasks import router as tasks_router
 
 app = FastAPI(
     title="Sorted API",
@@ -28,6 +29,8 @@ app.add_middleware(
     allow_methods=["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
     allow_headers=["Authorization", "Content-Type"],
 )
+
+app.include_router(tasks_router)
 
 
 @app.get("/health")

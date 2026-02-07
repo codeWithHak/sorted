@@ -9,8 +9,9 @@ from datetime import datetime
 from typing import TYPE_CHECKING
 
 from sqlalchemy import Column, ForeignKey, String
-from sqlalchemy.dialects.postgresql import UUID as PGUUID
 from sqlmodel import Field, Relationship, SQLModel
+
+from src.api.models.types import GUID
 
 if TYPE_CHECKING:
     from src.api.models.user import User
@@ -28,6 +29,7 @@ class Task(SQLModel, table=True):
         is_deleted: Soft delete flag (default False)
         user_id: Foreign key reference to owning User
         created_at: Task creation timestamp
+        updated_at: Last update timestamp
         user: Relationship to User entity
     """
 
@@ -35,7 +37,7 @@ class Task(SQLModel, table=True):
 
     id: uuid.UUID = Field(
         default_factory=uuid.uuid4,
-        sa_column=Column(PGUUID(as_uuid=True), primary_key=True),
+        sa_column=Column(GUID, primary_key=True),
     )
     title: str = Field(sa_column=Column(String(200), nullable=False))
     description: str | None = Field(
@@ -45,12 +47,13 @@ class Task(SQLModel, table=True):
     is_deleted: bool = Field(default=False, nullable=False, index=True)
     user_id: uuid.UUID = Field(
         sa_column=Column(
-            PGUUID(as_uuid=True),
+            GUID,
             ForeignKey("users.id"),
             nullable=False,
         )
     )
     created_at: datetime = Field(default_factory=datetime.utcnow, nullable=False)
+    updated_at: datetime = Field(default_factory=datetime.utcnow, nullable=False)
 
     # Relationship to User
     user: "User" = Relationship()

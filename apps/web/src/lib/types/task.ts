@@ -27,3 +27,23 @@ export interface TaskListResponse {
 }
 
 export type TaskFilter = "all" | "active" | "completed";
+
+export type TaskCreator = "user" | "agent";
+export type TaskGroup = "today" | "upcoming" | "completed";
+
+export interface TaskCardData {
+  id: string;
+  title: string;
+  description: string | null;
+  completed: boolean;
+  created_at: string;
+  updated_at: string;
+  created_by: TaskCreator;
+  agent_id: string | null;
+}
+
+export interface GroupedTasks {
+  today: TaskCardData[];
+  upcoming: TaskCardData[];
+  completed: TaskCardData[];
+}

@@ -170,7 +170,7 @@
 
 - [x] T018 [P] Add error banner dismiss functionality in `apps/web/src/app/dashboard/page.tsx`. The error message should be dismissible — add an X button that clears the error state. Auto-dismiss after 5 seconds using `setTimeout` in a `useEffect` triggered by error state changes.
 
-- [ ] T019 Run quickstart.md validation: start backend and frontend, sign in, verify all 10 verification steps from `specs/007-frontend-task-ui/quickstart.md` pass (empty state, create, toggle, edit, delete, pagination with 21+ tasks, filter, 360px viewport, 401 redirect on expired token, error messages on backend failure).
+- [x] T019 Run quickstart.md validation: start backend and frontend, sign in, verify all 10 verification steps from `specs/007-frontend-task-ui/quickstart.md` pass (empty state, create, toggle, edit, delete, pagination with 21+ tasks, filter, 360px viewport, 401 redirect on expired token, error messages on backend failure).
 
 ---
 

@@ -64,7 +64,7 @@ export function TaskForm({
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-4">
       {error && (
-        <div className="rounded-md border border-red-200 bg-red-50 p-3 text-sm text-red-600 dark:border-red-800 dark:bg-red-900/20 dark:text-red-400">
+        <div className="rounded-md border border-red-200 bg-red-50 p-3 text-sm text-red-600">
           {error}
         </div>
       )}
@@ -83,23 +83,23 @@ export function TaskForm({
           }}
           maxLength={200}
           required
-          className="rounded-md border border-zinc-300 bg-transparent px-3 py-2 text-sm outline-none focus:border-zinc-500 dark:border-zinc-700 dark:focus:border-zinc-400"
+          className="rounded-md border border-stone-300 bg-transparent px-3 py-2 text-sm outline-none focus:border-stone-500"
           placeholder="What needs to be done?"
           autoFocus
         />
         <div className="flex justify-between">
           {titleError ? (
-            <span className="text-sm text-red-600 dark:text-red-400">{titleError}</span>
+            <span className="text-sm text-red-600">{titleError}</span>
           ) : (
             <span />
           )}
-          <span className="text-xs text-zinc-400">{title.length}/200</span>
+          <span className="text-xs text-stone-400">{title.length}/200</span>
         </div>
       </div>
 
       <div className="flex flex-col gap-1">
         <label htmlFor="task-description" className="text-sm font-medium">
-          Description <span className="font-normal text-zinc-400">(optional)</span>
+          Description <span className="font-normal text-stone-400">(optional)</span>
         </label>
         <textarea
           id="task-description"
@@ -110,16 +110,16 @@ export function TaskForm({
           }}
           maxLength={2000}
           rows={3}
-          className="rounded-md border border-zinc-300 bg-transparent px-3 py-2 text-sm outline-none focus:border-zinc-500 dark:border-zinc-700 dark:focus:border-zinc-400"
+          className="rounded-md border border-stone-300 bg-transparent px-3 py-2 text-sm outline-none focus:border-stone-500"
           placeholder="Add a description..."
         />
         <div className="flex justify-between">
           {descriptionError ? (
-            <span className="text-sm text-red-600 dark:text-red-400">{descriptionError}</span>
+            <span className="text-sm text-red-600">{descriptionError}</span>
           ) : (
             <span />
           )}
-          <span className="text-xs text-zinc-400">{description.length}/2000</span>
+          <span className="text-xs text-stone-400">{description.length}/2000</span>
         </div>
       </div>
 
@@ -127,14 +127,14 @@ export function TaskForm({
         <button
           type="button"
           onClick={onCancel}
-          className="rounded-md border border-zinc-300 px-4 py-2 text-sm hover:bg-zinc-50 dark:border-zinc-700 dark:hover:bg-zinc-800"
+          className="rounded-md border border-stone-300 px-4 py-2 text-sm hover:bg-stone-50"
         >
           Cancel
         </button>
         <button
           type="submit"
           disabled={loading || isInvalid}
-          className="rounded-md bg-zinc-900 px-4 py-2 text-sm font-medium text-white hover:bg-zinc-800 disabled:opacity-50 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200"
+          className="rounded-md bg-stone-900 px-4 py-2 text-sm font-medium text-white hover:bg-stone-800 disabled:opacity-50"
         >
           {loading ? "Saving..." : mode === "create" ? "Create Task" : "Save Changes"}
         </button>

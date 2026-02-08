@@ -138,7 +138,7 @@ export function useChat(userId: string | undefined, options?: UseChatOptions) {
               // Accumulate tasks into the action card (don't replace)
               if (actionCard && actionCard.actionType === event.action_type) {
                 actionCard = {
-                  ...actionCard,
+                  actionType: actionCard.actionType,
                   taskCount: actionCard.taskCount + 1,
                   tasks: [...actionCard.tasks, { id: event.task_id, title: event.task_title }],
                 };

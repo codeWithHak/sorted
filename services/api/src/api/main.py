@@ -35,6 +35,12 @@ app.include_router(tasks_router)
 app.include_router(chat_router)
 
 
+@app.get("/")
+async def root() -> dict[str, str]:
+    """Root endpoint for HF Spaces health check."""
+    return {"status": "ok", "service": "sorted-api"}
+
+
 @app.get("/health")
 async def health(session: AsyncSession = Depends(get_session)) -> dict[str, str]:
     """

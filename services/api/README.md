@@ -1,3 +1,12 @@
+---
+title: Sorted API
+emoji: 🧠
+colorFrom: blue
+colorTo: purple
+sdk: docker
+app_port: 7860
+---
+
 # sorted API (FastAPI)
 
 ## Prerequisites

@@ -1,4 +1,4 @@
-# Claude Code Rules
+# Qwen Code Rules
 
 This file is generated during init for the selected agent.
 
@@ -208,26 +208,3 @@ Wait for consent; never auto-create ADRs. Group related decisions (stacks, authe
 
 ## Code Standards
 See `.specify/memory/constitution.md` for code quality, testing, performance, security, and architecture principles.
-
-## Active Technologies
-- Python 3.13+ + Standard library only (no external dependencies for core functionality) (001-console-app)
-- In-memory (Python dict/list) - no database or file persistence (001-console-app)
-- Next.js 16+ (App Router) + TypeScript (apps/web) (002-web-scaffold)
-- FastAPI + Uvicorn (services/api) (002-web-scaffold)
-- Local dev ports: web 3000, api 8000 (002-web-scaffold)
-- No DB/auth/CRUD in 002-web-scaffold (foundation + health only)
-- Python 3.13+ + FastAPI, SQLModel, SQLAlchemy 2.0+, asyncpg (004-database-setup)
-- Neon Serverless PostgreSQL (with connection pooling) (004-database-setup)
-- TypeScript (Next.js 16+, frontend), Python 3.13+ (FastAPI, backend) (005-auth)
-- Neon Serverless PostgreSQL (shared between frontend auth and backend API) (005-auth)
-- Python 3.13+ + FastAPI >=0.115.0, SQLModel >=0.0.22, SQLAlchemy[asyncio] >=2.0.35, asyncpg >=0.30.0, pydantic-settings >=2.6.0, PyJWT[crypto] >=2.8.0 (006-task-crud-api)
-- Neon Serverless PostgreSQL (existing, via asyncpg) (006-task-crud-api)
-- TypeScript (Next.js 16+, React 19) + Next.js 16.1.2, React 19.2.3, better-auth ^1.4.18, Tailwind CSS 4 (007-frontend-task-ui)
-- N/A (frontend-only; backend handles persistence) (007-frontend-task-ui)
-- TypeScript 5.x (Next.js 16+, React 19) + Next.js 16.1.2, React 19.2.3, Tailwind CSS 4, Framer Motion (new — for complex animations), better-auth ^1.4.18, Geist font (already configured) (008-sorted-universe-landing-and-app-ui)
-- Client-side localStorage for chat message persistence; existing FastAPI backend for task CRUD (unchanged) (008-sorted-universe-landing-and-app-ui)
-- Python 3.13+ (backend), TypeScript 5.x (frontend) + FastAPI, OpenAI Agents SDK (`openai-agents`), `sse-starlette`, SQLModel, Next.js 16+, React 19 (009-ai-todo-chatbot)
-- Neon Serverless PostgreSQL (existing + 2 new tables: `chat_threads`, `chat_messages`) (009-ai-todo-chatbot)
-
-## Recent Changes
-- 001-console-app: Added Python 3.13+ + Standard library only (no external dependencies for core functionality)

@@ -12,6 +12,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from src.api.auth import TokenPayload, get_current_user
 from src.api.config import get_settings
 from src.api.database import get_session, lifespan
+from src.api.routers.chat import router as chat_router
 from src.api.routers.tasks import router as tasks_router
 
 app = FastAPI(
@@ -31,6 +32,7 @@ app.add_middleware(
 )
 
 app.include_router(tasks_router)
+app.include_router(chat_router)
 
 
 @app.get("/health")

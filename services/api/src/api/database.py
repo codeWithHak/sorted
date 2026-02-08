@@ -147,7 +147,7 @@ async def lifespan(app):
         app = FastAPI(lifespan=lifespan)
     """
     # Import models to register them with SQLModel.metadata
-    from src.api.models import Task, User  # noqa: F401
+    from src.api.models import ChatMessage, ChatThread, Task, User  # noqa: F401
 
     logger.info("Starting database initialization...")
     try:

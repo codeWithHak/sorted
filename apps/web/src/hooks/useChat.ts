@@ -137,11 +137,10 @@ export function useChat(userId: string | undefined, options?: UseChatOptions) {
             case "task_action":
               // Accumulate tasks into the action card (don't replace)
               if (actionCard && actionCard.actionType === event.action_type) {
-                const prev = actionCard;
                 actionCard = {
-                  ...prev,
-                  taskCount: prev.taskCount + 1,
-                  tasks: [...prev.tasks, { id: event.task_id, title: event.task_title }],
+                  actionType: actionCard.actionType,
+                  taskCount: actionCard.taskCount + 1,
+                  tasks: [...actionCard.tasks, { id: event.task_id, title: event.task_title }],
                 };
               } else {
                 actionCard = {

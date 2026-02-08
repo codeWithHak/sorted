@@ -86,7 +86,6 @@ async def other_user_task(session: AsyncSession):
 class TestAddTask:
     @pytest.mark.asyncio
     async def test_creates_task_for_user(self, ctx, session, monkeypatch):
-        import json
         from src.api.agent import tools as tools_mod
 
         monkeypatch.setattr(tools_mod, "_get_tool_session_factory", lambda: _test_session_factory)
@@ -95,18 +94,15 @@ class TestAddTask:
         wrapper = RunContextWrapper(context=ctx)
 
         result = await tools_mod._add_task_impl(wrapper, "Buy milk", None)
-        data = json.loads(result)
 
-        assert "id" in data
-        assert data["title"] == "Buy milk"
-        assert data["completed"] is False
+        assert "Buy milk" in result
+        assert "successfully" in result.lower()
         assert ctx.tasks_modified is True
         assert len(ctx.modified_tasks) == 1
         assert ctx.modified_tasks[0][0] == "created"
 
     @pytest.mark.asyncio
     async def test_rejects_empty_title(self, ctx, monkeypatch):
-        import json
         from src.api.agent import tools as tools_mod
 
         monkeypatch.setattr(tools_mod, "_get_tool_session_factory", lambda: _test_session_factory)
@@ -115,8 +111,7 @@ class TestAddTask:
         wrapper = RunContextWrapper(context=ctx)
 
         result = await tools_mod._add_task_impl(wrapper, "", None)
-        data = json.loads(result)
-        assert data["error"] == "VALIDATION_ERROR"
+        assert "cannot be empty" in result.lower()
 
 
 # ── list_tasks tests ──
@@ -125,7 +120,6 @@ class TestAddTask:
 class TestListTasks:
     @pytest.mark.asyncio
     async def test_lists_all_user_tasks(self, ctx, session, sample_tasks, monkeypatch):
-        import json
         from src.api.agent import tools as tools_mod
 
         monkeypatch.setattr(tools_mod, "_get_tool_session_factory", lambda: _test_session_factory)
@@ -134,12 +128,12 @@ class TestListTasks:
         wrapper = RunContextWrapper(context=ctx)
 
         result = await tools_mod._list_tasks_impl(wrapper, None)
-        data = json.loads(result)
-        assert data["total"] == 3
+        assert "Buy groceries" in result
+        assert "Read a book" in result
+        assert "Clean the house" in result
 
     @pytest.mark.asyncio
     async def test_filters_completed(self, ctx, session, sample_tasks, monkeypatch):
-        import json
         from src.api.agent import tools as tools_mod
 
         monkeypatch.setattr(tools_mod, "_get_tool_session_factory", lambda: _test_session_factory)
@@ -148,13 +142,11 @@ class TestListTasks:
         wrapper = RunContextWrapper(context=ctx)
 
         result = await tools_mod._list_tasks_impl(wrapper, True)
-        data = json.loads(result)
-        assert data["total"] == 1
-        assert data["tasks"][0]["title"] == "Clean the house"
+        assert "Clean the house" in result
+        assert "Buy groceries" not in result
 
     @pytest.mark.asyncio
     async def test_filters_pending(self, ctx, session, sample_tasks, monkeypatch):
-        import json
         from src.api.agent import tools as tools_mod
 
         monkeypatch.setattr(tools_mod, "_get_tool_session_factory", lambda: _test_session_factory)
@@ -163,12 +155,12 @@ class TestListTasks:
         wrapper = RunContextWrapper(context=ctx)
 
         result = await tools_mod._list_tasks_impl(wrapper, False)
-        data = json.loads(result)
-        assert data["total"] == 2
+        assert "Buy groceries" in result
+        assert "Read a book" in result
+        assert "Clean the house" not in result
 
     @pytest.mark.asyncio
     async def test_empty_list(self, ctx, monkeypatch):
-        import json
         from src.api.agent import tools as tools_mod
 
         monkeypatch.setattr(tools_mod, "_get_tool_session_factory", lambda: _test_session_factory)
@@ -177,13 +169,10 @@ class TestListTasks:
         wrapper = RunContextWrapper(context=ctx)
 
         result = await tools_mod._list_tasks_impl(wrapper, None)
-        data = json.loads(result)
-        assert data["total"] == 0
-        assert data["tasks"] == []
+        assert "no tasks" in result.lower()
 
     @pytest.mark.asyncio
     async def test_user_isolation(self, ctx, session, other_user_task, monkeypatch):
-        import json
         from src.api.agent import tools as tools_mod
 
         monkeypatch.setattr(tools_mod, "_get_tool_session_factory", lambda: _test_session_factory)
@@ -192,8 +181,7 @@ class TestListTasks:
         wrapper = RunContextWrapper(context=ctx)
 
         result = await tools_mod._list_tasks_impl(wrapper, None)
-        data = json.loads(result)
-        assert data["total"] == 0
+        assert "no tasks" in result.lower()
 
 
 # ── complete_task tests ──
@@ -202,7 +190,6 @@ class TestListTasks:
 class TestCompleteTask:
     @pytest.mark.asyncio
     async def test_marks_task_complete(self, ctx, session, sample_tasks, monkeypatch):
-        import json
         from src.api.agent import tools as tools_mod
 
         monkeypatch.setattr(tools_mod, "_get_tool_session_factory", lambda: _test_session_factory)
@@ -212,13 +199,11 @@ class TestCompleteTask:
 
         task_id = str(sample_tasks[0].id)
         result = await tools_mod._complete_task_impl(wrapper, task_id)
-        data = json.loads(result)
-        assert data["completed"] is True
+        assert "completed" in result.lower()
         assert ctx.tasks_modified is True
 
     @pytest.mark.asyncio
     async def test_not_found_for_invalid_id(self, ctx, monkeypatch):
-        import json
         from src.api.agent import tools as tools_mod
 
         monkeypatch.setattr(tools_mod, "_get_tool_session_factory", lambda: _test_session_factory)
@@ -227,12 +212,10 @@ class TestCompleteTask:
         wrapper = RunContextWrapper(context=ctx)
 
         result = await tools_mod._complete_task_impl(wrapper, str(uuid.uuid4()))
-        data = json.loads(result)
-        assert data["error"] == "NOT_FOUND"
+        assert "not found" in result.lower()
 
     @pytest.mark.asyncio
     async def test_isolation_other_user_task(self, ctx, session, other_user_task, monkeypatch):
-        import json
         from src.api.agent import tools as tools_mod
 
         monkeypatch.setattr(tools_mod, "_get_tool_session_factory", lambda: _test_session_factory)
@@ -241,8 +224,7 @@ class TestCompleteTask:
         wrapper = RunContextWrapper(context=ctx)
 
         result = await tools_mod._complete_task_impl(wrapper, str(other_user_task.id))
-        data = json.loads(result)
-        assert data["error"] == "NOT_FOUND"
+        assert "not found" in result.lower()
 
 
 # ── update_task tests ──
@@ -251,7 +233,6 @@ class TestCompleteTask:
 class TestUpdateTask:
     @pytest.mark.asyncio
     async def test_updates_title(self, ctx, session, sample_tasks, monkeypatch):
-        import json
         from src.api.agent import tools as tools_mod
 
         monkeypatch.setattr(tools_mod, "_get_tool_session_factory", lambda: _test_session_factory)
@@ -261,12 +242,10 @@ class TestUpdateTask:
 
         task_id = str(sample_tasks[0].id)
         result = await tools_mod._update_task_impl(wrapper, task_id, "Weekly shopping", None)
-        data = json.loads(result)
-        assert data["title"] == "Weekly shopping"
+        assert "weekly shopping" in result.lower()
 
     @pytest.mark.asyncio
     async def test_not_found(self, ctx, monkeypatch):
-        import json
         from src.api.agent import tools as tools_mod
 
         monkeypatch.setattr(tools_mod, "_get_tool_session_factory", lambda: _test_session_factory)
@@ -275,12 +254,10 @@ class TestUpdateTask:
         wrapper = RunContextWrapper(context=ctx)
 
         result = await tools_mod._update_task_impl(wrapper, str(uuid.uuid4()), "New", None)
-        data = json.loads(result)
-        assert data["error"] == "NOT_FOUND"
+        assert "not found" in result.lower()
 
     @pytest.mark.asyncio
     async def test_rejects_empty_title(self, ctx, session, sample_tasks, monkeypatch):
-        import json
         from src.api.agent import tools as tools_mod
 
         monkeypatch.setattr(tools_mod, "_get_tool_session_factory", lambda: _test_session_factory)
@@ -290,8 +267,7 @@ class TestUpdateTask:
 
         task_id = str(sample_tasks[0].id)
         result = await tools_mod._update_task_impl(wrapper, task_id, "", None)
-        data = json.loads(result)
-        assert data["error"] == "VALIDATION_ERROR"
+        assert "cannot be empty" in result.lower()
 
 
 # ── delete_task tests ──
@@ -300,7 +276,6 @@ class TestUpdateTask:
 class TestDeleteTask:
     @pytest.mark.asyncio
     async def test_soft_deletes_task(self, ctx, session, sample_tasks, monkeypatch):
-        import json
         from src.api.agent import tools as tools_mod
 
         monkeypatch.setattr(tools_mod, "_get_tool_session_factory", lambda: _test_session_factory)
@@ -310,13 +285,11 @@ class TestDeleteTask:
 
         task_id = str(sample_tasks[0].id)
         result = await tools_mod._delete_task_impl(wrapper, task_id)
-        data = json.loads(result)
-        assert data["status"] == "deleted"
+        assert "removed" in result.lower()
         assert ctx.tasks_modified is True
 
     @pytest.mark.asyncio
     async def test_not_found(self, ctx, monkeypatch):
-        import json
         from src.api.agent import tools as tools_mod
 
         monkeypatch.setattr(tools_mod, "_get_tool_session_factory", lambda: _test_session_factory)
@@ -325,12 +298,10 @@ class TestDeleteTask:
         wrapper = RunContextWrapper(context=ctx)
 
         result = await tools_mod._delete_task_impl(wrapper, str(uuid.uuid4()))
-        data = json.loads(result)
-        assert data["error"] == "NOT_FOUND"
+        assert "not found" in result.lower()
 
     @pytest.mark.asyncio
     async def test_isolation(self, ctx, session, other_user_task, monkeypatch):
-        import json
         from src.api.agent import tools as tools_mod
 
         monkeypatch.setattr(tools_mod, "_get_tool_session_factory", lambda: _test_session_factory)
@@ -339,5 +310,4 @@ class TestDeleteTask:
         wrapper = RunContextWrapper(context=ctx)
 
         result = await tools_mod._delete_task_impl(wrapper, str(other_user_task.id))
-        data = json.loads(result)
-        assert data["error"] == "NOT_FOUND"
+        assert "not found" in result.lower()

@@ -135,11 +135,20 @@ export function useChat(userId: string | undefined, options?: UseChatOptions) {
               break;
 
             case "task_action":
-              actionCard = {
-                actionType: event.action_type,
-                taskCount: event.task_count,
-                tasks: [{ id: event.task_id, title: event.task_title }],
-              };
+              // Accumulate tasks into the action card (don't replace)
+              if (actionCard && actionCard.actionType === event.action_type) {
+                actionCard = {
+                  ...actionCard,
+                  taskCount: actionCard.taskCount + 1,
+                  tasks: [...actionCard.tasks, { id: event.task_id, title: event.task_title }],
+                };
+              } else {
+                actionCard = {
+                  actionType: event.action_type,
+                  taskCount: 1,
+                  tasks: [{ id: event.task_id, title: event.task_title }],
+                };
+              }
               setMessages((prev) =>
                 prev.map((m) =>
                   m.id === agentMessageId ? { ...m, actionCard } : m,
@@ -147,6 +156,15 @@ export function useChat(userId: string | undefined, options?: UseChatOptions) {
               );
               // Trigger task panel refresh
               options?.onTaskAction?.();
+              break;
+
+            case "processing_status":
+              // Update agent message with status
+              setMessages((prev) =>
+                prev.map((m) =>
+                  m.id === agentMessageId ? { ...m, content: event.status } : m,
+                ),
+              );
               break;
 
             case "stream_end":

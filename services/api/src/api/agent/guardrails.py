@@ -68,6 +68,13 @@ async def check_claimed_actions(
 
     output_lower = output.lower()
 
+    # Check for raw JSON in output — warn but don't crash the response.
+    # The system prompt already instructs the agent not to output JSON;
+    # tripping the wire here kills the whole SSE stream which is worse UX.
+    json_pattern = r'\{[^}]*"[^"]+"\s*:'
+    if re.search(json_pattern, output):
+        logger.warning(f"Agent output contains raw JSON: {output[:200]}...")
+
     # Check for false claims about task operations
     action_claims = [
         ("created", ["i created", "i've created", "i added", "i've added", "done! i created"]),

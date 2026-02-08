@@ -115,6 +115,15 @@ async def chat(
             }),
         }
 
+        # Send initial processing status
+        yield {
+            "event": "processing_status",
+            "data": json.dumps({
+                "status": "Juggling your to-dos... 🤹‍♂️",
+                "type": "status_update"
+            }),
+        }
+
         try:
             result = Runner.run_streamed(
                 jett_agent,
@@ -124,7 +133,12 @@ async def chat(
 
             async for event in result.stream_events():
                 if isinstance(event, RawResponsesStreamEvent):
-                    if hasattr(event.data, "delta") and event.data.delta:
+                    # Only stream text content deltas, NOT function call argument deltas.
+                    # Both have .delta, but their .type differs:
+                    #   "response.output_text.delta" = text for user
+                    #   "response.function_call_arguments.delta" = tool call JSON (not for user)
+                    event_type = getattr(event.data, "type", "")
+                    if event_type == "response.output_text.delta" and event.data.delta:
                         token = event.data.delta
                         full_text += token
                         yield {
@@ -136,6 +150,15 @@ async def chat(
                 elif isinstance(event, RunItemStreamEvent):
                     item = event.item
                     if isinstance(item, ToolCallOutputItem):
+                        # Send status update when tool is called
+                        yield {
+                            "event": "processing_status",
+                            "data": json.dumps({
+                                "status": "Processing your request... 🛠️",
+                                "type": "status_update"
+                            }),
+                        }
+                        
                         # Check if task was modified
                         if chat_ctx.tasks_modified:
                             for action_type, task_id, task_title in chat_ctx.modified_tasks:

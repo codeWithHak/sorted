@@ -44,12 +44,19 @@ export interface SSEErrorEvent {
   retryable: boolean;
 }
 
+export interface ProcessingStatusEvent {
+  type: "processing_status";
+  status: string;
+  type_label: string;
+}
+
 export type SSEEvent =
   | StreamStartEvent
   | TextTokenEvent
   | TaskActionEvent
   | StreamEndEvent
-  | SSEErrorEvent;
+  | SSEErrorEvent
+  | ProcessingStatusEvent;
 
 function parseSSELine(eventType: string, data: string): SSEEvent | null {
   try {
@@ -65,6 +72,8 @@ function parseSSELine(eventType: string, data: string): SSEEvent | null {
         return { type: "stream_end", ...parsed };
       case "error":
         return { type: "error", ...parsed };
+      case "processing_status":
+        return { type: "processing_status", ...parsed };
       default:
         return null;
     }

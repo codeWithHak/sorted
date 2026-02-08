@@ -18,7 +18,8 @@ def _get_tool_session_factory():
 
 
 def _error(code: str, message: str, suggestion: str) -> str:
-    return json.dumps({"error": code, "message": message, "suggestion": suggestion})
+    # Return user-friendly error message instead of JSON
+    return f"{message} {suggestion}"
 
 
 async def _add_task_impl(
@@ -48,12 +49,7 @@ async def _add_task_impl(
         ctx.context.tasks_modified = True
         ctx.context.modified_tasks.append(("created", str(task.id), task.title))
 
-        return json.dumps({
-            "id": str(task.id),
-            "title": task.title,
-            "completed": task.completed,
-            "created_at": task.created_at.isoformat(),
-        })
+        return f"Added task '{task.title}' successfully!"
 
 
 @function_tool
@@ -87,18 +83,15 @@ async def _list_tasks_impl(
         )
         tasks = result.scalars().all()
 
-        return json.dumps({
-            "tasks": [
-                {
-                    "id": str(t.id),
-                    "title": t.title,
-                    "completed": t.completed,
-                    "created_at": t.created_at.isoformat(),
-                }
-                for t in tasks
-            ],
-            "total": len(tasks),
-        })
+        if not tasks:
+            return "You have no tasks right now. Would you like to add one?"
+
+        task_list = []
+        for i, task in enumerate(tasks, 1):
+            status = "✓" if task.completed else "○"
+            task_list.append(f"{i}. [{status}] {task.title} (id: {task.id})")
+
+        return f"Here are your tasks:\n" + "\n".join(task_list)
 
 
 @function_tool
@@ -147,11 +140,7 @@ async def _complete_task_impl(
         ctx.context.tasks_modified = True
         ctx.context.modified_tasks.append(("completed", str(task.id), task.title))
 
-        return json.dumps({
-            "id": str(task.id),
-            "title": task.title,
-            "completed": task.completed,
-        })
+        return f"Great job! I've marked '{task.title}' as completed. 🎉"
 
 
 @function_tool
@@ -215,11 +204,7 @@ async def _update_task_impl(
         ctx.context.tasks_modified = True
         ctx.context.modified_tasks.append(("updated", str(task.id), task.title))
 
-        return json.dumps({
-            "id": str(task.id),
-            "title": task.title,
-            "description": task.description,
-        })
+        return f"Task updated successfully! '{task.title}' is now up to date."
 
 
 @function_tool
@@ -272,11 +257,7 @@ async def _delete_task_impl(
         ctx.context.tasks_modified = True
         ctx.context.modified_tasks.append(("deleted", str(task.id), task.title))
 
-        return json.dumps({
-            "status": "deleted",
-            "task_id": str(task.id),
-            "title": task.title,
-        })
+        return f"Task '{task.title}' has been removed from your list."
 
 
 @function_tool
@@ -287,3 +268,31 @@ async def delete_task(ctx: RunContextWrapper[ChatContext], task_id: str) -> str:
         task_id: UUID of the task to delete.
     """
     return await _delete_task_impl(ctx, task_id)
+
+
+@function_tool
+async def delete_all_tasks(ctx: RunContextWrapper[ChatContext]) -> str:
+    """Delete ALL of the user's tasks at once. Use when the user asks to clear or delete everything."""
+    user_id = uuid.UUID(ctx.context.user_id)
+    factory = _get_tool_session_factory()
+    async with factory() as session:
+        result = await session.execute(
+            select(Task).where(
+                Task.user_id == user_id,
+                Task.is_deleted == False,  # noqa: E712
+            )
+        )
+        tasks = result.scalars().all()
+
+        if not tasks:
+            return "You don't have any tasks to delete."
+
+        for task in tasks:
+            task.is_deleted = True
+            task.updated_at = datetime.utcnow()
+            ctx.context.modified_tasks.append(("deleted", str(task.id), task.title))
+
+        ctx.context.tasks_modified = True
+        await session.commit()
+
+        return f"All {len(tasks)} tasks have been deleted."

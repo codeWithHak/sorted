@@ -1,228 +1,55 @@
-<!--
-SYNC IMPACT REPORT
-===================
-Version Change: 1.0.0 -> 1.1.0 (Workflow policy material expansion)
+# [PROJECT_NAME] Constitution
+<!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
 
-Modified Sections:
-- Workflow Policies / Documentation Strategy: "Context7-first" -> "Skills-first, then Context7".
+## Core Principles
 
-Templates Validated:
-- .specify/templates/plan-template.md: ✅ no change needed
-- .specify/templates/spec-template.md: ✅ no change needed
-- .specify/templates/tasks-template.md: ✅ no change needed
-- .specify/templates/commands/*.md: ✅ no change needed
+### [PRINCIPLE_1_NAME]
+<!-- Example: I. Library-First -->
+[PRINCIPLE_1_DESCRIPTION]
+<!-- Example: Every feature starts as a standalone library; Libraries must be self-contained, independently testable, documented; Clear purpose required - no organizational-only libraries -->
 
-Follow-up TODOs:
-- None
--->
+### [PRINCIPLE_2_NAME]
+<!-- Example: II. CLI Interface -->
+[PRINCIPLE_2_DESCRIPTION]
+<!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
 
-# sorted Constitution
+### [PRINCIPLE_3_NAME]
+<!-- Example: III. Test-First (NON-NEGOTIABLE) -->
+[PRINCIPLE_3_DESCRIPTION]
+<!-- Example: TDD mandatory: Tests written → User approved → Tests fail → Then implement; Red-Green-Refactor cycle strictly enforced -->
 
-## Core Principles (Engineering Directives)
+### [PRINCIPLE_4_NAME]
+<!-- Example: IV. Integration Testing -->
+[PRINCIPLE_4_DESCRIPTION]
+<!-- Example: Focus areas requiring integration tests: New library contract tests, Contract changes, Inter-service communication, Shared schemas -->
 
-### 1. Readability Over Cleverness
+### [PRINCIPLE_5_NAME]
+<!-- Example: V. Observability, VI. Versioning & Breaking Changes, VII. Simplicity -->
+[PRINCIPLE_5_DESCRIPTION]
+<!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
 
-Code must prioritize clarity over brevity. Five straightforward lines are always preferable to two convoluted lines that require mental gymnastics to understand. If a reviewer needs to pause and re-read a line to grasp its intent, it is too clever. Code should read like prose, not a puzzle. Avoid one-liners that compress multiple operations, nested comprehensions that hide logic flow, and clever mathematical tricks that save characters but destroy understanding.
+### [PRINCIPLE_6_NAME]
 
-### 2. Async-First Design
 
-All I/O operations must be asynchronous to ensure responsiveness. Database queries, HTTP calls, and external service integrations use async/await patterns. No blocking calls on the hot path. This principle applies across all phases: console operations use async I/O where possible, web APIs use async route handlers, chatbot responses are async, and cloud services handle events asynchronously.
+[PRINCIPLE__DESCRIPTION]
 
-### 3. Security by Default
+## [SECTION_2_NAME]
+<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
 
-Every input is treated as untrusted. Authentication, authorization, and data validation must happen at system boundaries. Secrets are never committed, environment variables are mandatory for sensitive data, and JWT tokens have reasonable expiry. Input validation occurs before business logic, SQL queries use parameterized statements, and user data isolation is enforced at the database level.
+[SECTION_2_CONTENT]
+<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
 
-### 4. Phase-Based Evolution
+## [SECTION_3_NAME]
+<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
 
-The project progresses through five distinct phases (Console -> Web -> AI Chatbot -> Local K8s -> Cloud-Native). Each phase builds incrementally on the previous. Features are only implemented when their phase is active—no premature optimization for later phases. This prevents over-engineering and ensures each phase delivers working value before moving forward.
-
-### 5. Spec-Driven Development (NON-NEGOTIABLE)
-
-No code is written without a specification. The workflow is strictly: Specify -> Plan -> Tasks -> Implement. Every implementation must reference the task ID it fulfills. Vibe-coding is prohibited. If a spec is missing or incomplete, the agent must stop and request clarification rather than inferring requirements.
-
-## Global Constraints (Technical Platform)
-
-### Phase I: In-Memory Console App
-- Python 3.13+ required
-- UV package manager for dependencies
-- In-memory storage only (no database)
-- Command-line interface with text I/O
-
-### Phase II: Full-Stack Web Application
-- Frontend: Next.js 16+ with App Router
-- Backend: FastAPI with Python
-- ORM: SQLModel for database operations
-- Database: Neon Serverless PostgreSQL
-- Authentication: Better Auth with JWT tokens
-- API: RESTful endpoints following spec-defined contracts
-
-### Phase III: AI-Powered Todo Chatbot
-- Frontend UI: OpenAI ChatKit
-- AI Framework: OpenAI Agents SDK
-- MCP Server: Official MCP SDK (Python)
-- Chat Endpoint: Stateless design with database persistence
-- Tools: MCP tools expose task CRUD operations
-
-### Phase IV: Local Kubernetes Deployment
-- Containerization: Docker (Docker Desktop)
-- Orchestration: Minikube for local K8s
-- Package Manager: Helm Charts for deployment
-- AI DevOps: kubectl-ai and Kagent for intelligent operations
-- Application: Phase III chatbot deployed as containers
-
-### Phase V: Advanced Cloud Deployment
-- Event Streaming: Kafka or Redpanda for event-driven architecture
-- Distributed Runtime: Dapr for Pub/Sub, State, Bindings, Secrets, Service Invocation
-- Cloud K8s: AKS (Azure), GKE (Google), or Oracle OKE
-- CI/CD: GitHub Actions for automated deployments
-- Features: All Advanced Level features (Recurring Tasks, Due Dates, Reminders, Priorities, Tags, Search, Filter, Sort)
-
-### Cross-Phase Constraints
-- Project Structure: Monorepo with clear separation of phases
-- Git Workflow: Each phase submission creates a tagged release
-- Documentation: Markdown with clear section headers
-- Configuration: Environment variables for all sensitive data
-
-## Workflow Policies
-
-### Documentation Strategy
-
-Never rely on internal training data for external-library usage.
-
-**Skills-first rule (preferred):** Before implementing a feature that touches an external library/framework or a non-trivial pattern, the agent MUST check for an existing **skill** that matches the domain and use it as the primary guide.
-
-Examples (non-exhaustive):
-- FastAPI routing/backends → use `scaffolding-fastapi` (and related backend skills) when applicable.
-- Next.js App Router frontend work → use `building-nextjs-apps` and `styling-with-shadcn` when applicable.
-- Agent orchestration / OpenAI Agents SDK → use `scaffolding-openai-agents` when applicable.
-- UI/UX + component aesthetics → use `frontend-design` when applicable.
-- Agent architecture, context/memory concerns, tool design → use `context-fundamentals` / `tool-design` when applicable.
-- When comparing approaches or needing current external info beyond docs → use `WebSearch`.
-
-**Documentation rule (fallback):** If no relevant skill exists (or the skill does not cover the needed API surface), fetch and rely on official documentation via the Context7 MCP server before implementing any library API (OpenAI SDKs, Better Auth, Dapr, Kafka, etc.). This ensures current, accurate information rather than outdated internal knowledge.
-
-### Code References
-
-All code changes must reference source location (file:line) for context and traceability. When proposing changes, cite the exact lines being modified. When creating new code, reference related code patterns from existing files.
-
-### Git Workflow
-
-Each phase submission creates a tagged release. Pull requests must reference specs and tasks. Commit messages follow conventional format: `type(scope): description`. Types include: feat, fix, docs, refactor, test, chore.
-
-### Testing
-
-Unit tests for business logic, integration tests for API boundaries, end-to-end tests for critical user flows. Tests are written before implementation where possible (TDD), ensuring failures guide development. Coverage targets are defined per phase but minimum 70% for production code.
-
-### Prompt History Records
-
-Every user interaction generates a PHR in `history/prompts/` with full verbatim prompt preserved. PHRs are categorized by stage: constitution, spec, plan, tasks, red, green, refactor, explainer, misc, or general.
-
-## Quality Standards
-
-### Code Style
-
-Python follows PEP8 with type hints. TypeScript/JavaScript follows ESLint/Prettier conventions. Formatting is automated via pre-commit hooks. Code review checks for adherence to style guides.
-
-### Naming
-
-Variables and functions use descriptive names that explain their purpose. No single-letter variables except loop indices (i, j, k) and mathematical contexts (x, y, z). Names should answer "what is this?" not "how is it used?". Booleans start with prefixes like `is_`, `has_`, `can_`, `should_`.
-
-### Comments
-
-Add comments only when code intent is not obvious from variable names and structure. Good code is self-documenting. Comments explain WHY, not WHAT. Docstrings are required for all public functions and classes.
-
-### Error Handling
-
-All async operations have explicit error handling. Errors return user-friendly messages; technical details are logged appropriately. Error types are specific and meaningful. Client receives actionable feedback.
-
-### Performance
-
-API endpoints respond within 200ms for simple operations, 500ms for complex queries. Database queries use indexes on filtered columns. Pagination is required for list operations. Caching is used where appropriate but never at the cost of correctness.
-
-## Success Criteria (Deliverables)
-
-### Phase I: In-Memory Console App
-- Functional console app with all Basic Level features
-- Add Task: Create new todo items with title and description
-- Delete Task: Remove tasks from the list
-- Update Task: Modify existing task details
-- View Task List: Display all tasks with status indicators
-- Mark as Complete: Toggle task completion status
-- Clean Python structure following PEP8
-- In-memory storage with proper data structures
-
-### Phase II: Full-Stack Web Application
-- Next.js frontend with responsive UI
-- FastAPI backend with RESTful API endpoints
-- Persistent Neon PostgreSQL storage with SQLModel
-- Better Auth with JWT integration (signup, signin, token verification)
-- All Basic Level features accessible via web interface
-- User isolation enforced at database and API levels
-- Deployed to Vercel (frontend) and cloud backend
-
-### Phase III: AI-Powered Todo Chatbot
-- ChatKit-based conversational interface
-- OpenAI Agents SDK for natural language understanding
-- MCP server with tools for all task operations (add, list, complete, delete, update)
-- Stateless chat endpoint with database-persisted conversation history
-- Natural language commands supported for all CRUD operations
-- Graceful error handling and helpful responses
-- Resume conversations after server restart
-
-### Phase IV: Local Kubernetes Deployment
-- Docker containers for frontend and backend
-- Helm charts for deployment automation
-- Successful deployment on Minikube
-- kubectl-ai and Kagent used for cluster operations
-- Local deployment demonstrates cloud-native patterns
-- Health checks and proper resource limits configured
-
-### Phase V: Advanced Cloud Deployment
-- Event-driven architecture with Kafka or Redpanda
-- Dapr integration: Pub/Sub (task-events, reminders), State (conversation cache), Bindings (scheduled triggers), Secrets (API keys), Service Invocation (frontend to backend)
-- Cloud deployment on AKS, GKE, or Oracle OKE
-- GitHub Actions CI/CD pipeline with automated testing and deployment
-- All Advanced Level features: Recurring Tasks, Due Dates & Reminders, Priorities, Tags, Search, Filter, Sort
-- Production-ready with monitoring, logging, and alerting
+[SECTION_3_CONTENT]
+<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
 
 ## Governance
+<!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
 
-### Amendment Procedure
+[GOVERNANCE_RULES]
+<!-- Example: All PRs/reviews must verify compliance; Complexity must be justified; Use [GUIDANCE_FILE] for runtime development guidance -->
 
-Constitution amendments require:
-1. Proposal with justification for change
-2. Review against project principles and constraints
-3. Assessment of impact on existing specs and tasks
-4. Documentation of rationale and expected benefits
-5. Approval before implementation
-6. Migration plan for affected code (if breaking change)
-
-### Versioning Policy
-
-- MAJOR: Backward incompatible governance or principle removals
-- MINOR: New principle or section added, material expansion
-- PATCH: Clarifications, wording fixes, non-semantic refinements
-- Version follows semantic versioning: MAJOR.MINOR.PATCH
-
-### Compliance Review
-
-All pull requests and code reviews must verify compliance with:
-- Core principles (especially NON-NEGOTIABLE items)
-- Tech stack constraints for current phase
-- Code style and naming standards
-- Error handling and security requirements
-- Performance targets for affected components
-
-### Hierarchy
-
-In case of conflict between documents:
-1. Constitution (highest authority - this document)
-2. Specification (feature-level requirements)
-3. Plan (technical approach)
-4. Tasks (implementation breakdown)
-
-Constitution supersedes all other practices. If spec or plan conflicts with constitution, constitution wins and the conflict must be resolved by updating the conflicting document.
-
----
-
-**Version**: 1.1.0 | **Ratified**: 2025-12-07 | **Last Amended**: 2026-01-11
+**Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
+<!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->

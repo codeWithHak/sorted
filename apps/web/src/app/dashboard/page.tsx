@@ -25,8 +25,11 @@ export default function DashboardPage() {
     deleteTask,
     highlightTask,
     highlightedTaskId,
+    refreshTasks,
   } = useTasks(session?.user?.id);
-  const { messages, sendMessage, isThinking } = useChat(session?.user?.id);
+  const { messages, sendMessage, isThinking } = useChat(session?.user?.id, {
+    onTaskAction: refreshTasks,
+  });
   const { agentState, setThinking, setActing, setIdle } = useAgentActivity();
   const [activeTab, setActiveTab] = useState<"chat" | "tasks">("chat");
   const [taskBadgeCount, setTaskBadgeCount] = useState(0);

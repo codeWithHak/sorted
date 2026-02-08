@@ -27,8 +27,11 @@ class Settings(BaseSettings):
     database_url: str
     jwks_url: str = "http://localhost:3000/api/auth/jwks"
     cors_origins: str = "http://localhost:3000"
+    openai_api_key: str = ""
 
     def __init__(self, **kwargs):
+        import os
+
         super().__init__(**kwargs)
         if not self.database_url:
             raise ValueError(
@@ -36,6 +39,10 @@ class Settings(BaseSettings):
                 "Set it in .env file or export it directly. "
                 "Example: postgresql+asyncpg://user:pass@host/db?sslmode=verify-full"
             )
+
+        # Export OPENAI_API_KEY to os.environ so the OpenAI Agents SDK can find it
+        if self.openai_api_key and not os.environ.get("OPENAI_API_KEY"):
+            os.environ["OPENAI_API_KEY"] = self.openai_api_key
 
     @property
     def cors_origin_list(self) -> list[str]:

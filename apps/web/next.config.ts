@@ -3,6 +3,7 @@ import type { NextConfig } from "next";
 const apiBaseUrl = process.env.API_BASE_URL;
 
 const nextConfig: NextConfig = {
+  output: "standalone",
   async rewrites() {
     if (!apiBaseUrl) {
       return [];

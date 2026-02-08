@@ -226,6 +226,8 @@ See `.specify/memory/constitution.md` for code quality, testing, performance, se
 - N/A (frontend-only; backend handles persistence) (007-frontend-task-ui)
 - TypeScript 5.x (Next.js 16+, React 19) + Next.js 16.1.2, React 19.2.3, Tailwind CSS 4, Framer Motion (new — for complex animations), better-auth ^1.4.18, Geist font (already configured) (008-sorted-universe-landing-and-app-ui)
 - Client-side localStorage for chat message persistence; existing FastAPI backend for task CRUD (unchanged) (008-sorted-universe-landing-and-app-ui)
+- Python 3.13+ (backend), TypeScript 5.x (frontend) + FastAPI, OpenAI Agents SDK (`openai-agents`), `sse-starlette`, SQLModel, Next.js 16+, React 19 (009-ai-todo-chatbot)
+- Neon Serverless PostgreSQL (existing + 2 new tables: `chat_threads`, `chat_messages`) (009-ai-todo-chatbot)
 
 ## Recent Changes
 - 001-console-app: Added Python 3.13+ + Standard library only (no external dependencies for core functionality)

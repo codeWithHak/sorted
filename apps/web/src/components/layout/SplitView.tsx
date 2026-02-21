@@ -22,7 +22,7 @@ export function SplitView({
   if (!isMobile) {
     return (
       <div className="flex flex-1 overflow-hidden">
-        <div className="flex w-2/5 flex-col overflow-hidden border-r border-stone-200">
+        <div className="flex w-2/5 flex-col overflow-hidden border-r border-white/10">
           {leftPanel}
         </div>
         <div className="flex w-3/5 flex-col overflow-hidden">

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import type { ChatMessage as ChatMessageType } from "@/lib/types/chat";
 import { ActionCard } from "./ActionCard";
 
@@ -12,18 +13,18 @@ export function ChatMessage({ message, onTaskClick }: ChatMessageProps) {
   return (
     <div className={`flex ${isUser ? "justify-end" : "gap-2"}`}>
       {!isUser && (
-        <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-amber-500 text-xs font-bold text-white">
-          J
+        <div className="flex h-7 w-7 shrink-0 items-center justify-center overflow-hidden shadow-[0_0_12px_rgba(5,150,105,0.3)]">
+          <Image src="/jett.jpg" alt="Jett" width={28} height={28} className="h-full w-full object-cover" />
         </div>
       )}
       <div
         className={`max-w-[80%] ${
           isUser
-            ? "rounded-xl rounded-br-sm bg-stone-100 px-3 py-2"
-            : "rounded-xl rounded-tl-sm border-l-2 border-amber-200 bg-white px-3 py-2"
+            ? "bg-white/10 px-3 py-2"
+            : "border-l-2 border-emerald-600/30 bg-white/5 px-3 py-2"
         }`}
       >
-        <p className="text-sm text-stone-700 whitespace-pre-wrap">{message.content}</p>
+        <p className="text-sm text-white/80 whitespace-pre-wrap">{message.content}</p>
         {message.actionCard && onTaskClick && (
           <ActionCard
             actionType={message.actionCard.actionType}
@@ -32,7 +33,7 @@ export function ChatMessage({ message, onTaskClick }: ChatMessageProps) {
             onTaskClick={onTaskClick}
           />
         )}
-        <p className="mt-1 text-[10px] text-stone-400">
+        <p className="mt-1 text-[10px] text-white/20">
           {new Date(message.timestamp).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
         </p>
       </div>

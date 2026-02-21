@@ -38,21 +38,21 @@ export function TaskPanel({
   return (
     <div
       className={`flex h-full flex-col overflow-hidden transition-shadow duration-500 ${
-        isActing ? "shadow-[0_0_20px_rgba(245,158,11,0.2)]" : ""
+        isActing ? "shadow-[0_0_20px_rgba(5,150,105,0.2)]" : ""
       }`}
     >
-      <div className="flex items-center justify-between border-b border-stone-200 px-4 py-3">
-        <h2 className="text-sm font-semibold text-stone-700">Tasks</h2>
+      <div className="flex items-center justify-between border-b border-white/10 px-4 py-3">
+        <h2 className="text-sm font-mono font-semibold text-white/50 uppercase tracking-wider">Tasks</h2>
         <button
           onClick={() => setShowCreate(true)}
-          className="rounded-full bg-stone-900 px-4 py-1.5 text-xs font-medium text-white hover:bg-stone-800 transition-colors"
+          className="bg-emerald-600 px-4 py-1.5 text-xs font-mono font-medium text-white uppercase tracking-wider hover:bg-emerald-500 transition-colors shadow-[0_0_12px_rgba(5,150,105,0.2)]"
         >
           New Task
         </button>
       </div>
 
       {error && (
-        <div className="mx-4 mt-2 rounded-lg bg-red-50 px-3 py-2 text-xs text-red-700">
+        <div className="mx-4 mt-2 bg-red-500/10 border border-red-500/20 px-3 py-2 text-xs text-red-400">
           {error}
         </div>
       )}
@@ -61,7 +61,7 @@ export function TaskPanel({
         {loading && totalTasks === 0 ? (
           <div className="space-y-3">
             {[1, 2, 3].map((i) => (
-              <div key={i} className="h-20 animate-pulse rounded-xl bg-stone-100" />
+              <div key={i} className="h-20 animate-pulse bg-white/5" />
             ))}
           </div>
         ) : totalTasks === 0 ? (

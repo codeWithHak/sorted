@@ -11,11 +11,14 @@ interface AppHeaderProps {
 
 export function AppHeader({ userEmail, isAgentActive, onSignOut, onToggleSidebar }: AppHeaderProps) {
   return (
-    <header className="flex items-center justify-between border-b border-stone-200 bg-stone-50 px-4 py-3">
+    <header className="relative flex items-center justify-between border-b border-white/10 bg-black/60 backdrop-blur-xl px-4 py-3">
+      {/* Accent glow line */}
+      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-emerald-600/40 to-transparent" />
+
       <div className="flex items-center gap-3">
         <button
           onClick={onToggleSidebar}
-          className="rounded-md p-1.5 text-stone-500 hover:bg-stone-200 hover:text-stone-700 focus-visible:outline-2 focus-visible:outline-amber-500"
+          className="p-1.5 text-white/40 hover:bg-white/10 hover:text-white transition-colors focus-visible:outline-2 focus-visible:outline-emerald-500"
           aria-label="Toggle sidebar"
         >
           <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -25,10 +28,10 @@ export function AppHeader({ userEmail, isAgentActive, onSignOut, onToggleSidebar
         <SortedLogo isPulsing={isAgentActive} />
       </div>
       <div className="flex items-center gap-3">
-        <span className="text-sm text-stone-500">{userEmail}</span>
+        <span className="text-sm font-mono text-white/30">{userEmail}</span>
         <button
           onClick={onSignOut}
-          className="rounded-md border border-stone-300 px-3 py-1 text-sm text-stone-600 hover:bg-stone-100 transition-colors"
+          className="border border-white/10 px-3 py-1 text-sm font-mono text-white/40 hover:bg-white/10 hover:text-white/70 transition-colors uppercase tracking-wider"
         >
           Sign out
         </button>

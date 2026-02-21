@@ -14,35 +14,54 @@ export function MeetJettSection() {
 
     const observer = new IntersectionObserver(
       ([entry]) => setIsVisible(entry.isIntersecting),
-      { threshold: 0.3 },
+      { threshold: 0.3 }
     );
     observer.observe(el);
     return () => observer.disconnect();
   }, []);
 
   return (
-    <section id="meet-jett" className="py-24" ref={sectionRef}>
-      <div className="mx-auto max-w-3xl px-6">
-        <p className="mb-12 text-center text-lg text-stone-500">
-          Every universe starts somewhere. Meet Jett — your task agent.
+    <section id="meet-jett" className="py-24 relative" ref={sectionRef}>
+      {/* Subtle ambient glow behind demo */}
+      <div
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] pointer-events-none"
+        style={{
+          background:
+            "radial-gradient(ellipse, rgba(5, 150, 105, 0.06) 0%, transparent 70%)",
+        }}
+        aria-hidden="true"
+      />
+
+      <div className="mx-auto max-w-3xl px-6 relative">
+        <h2 className="mb-4 text-center text-3xl font-bold tracking-tight text-white">
+          Try Jett Now
+        </h2>
+        <p className="mb-12 text-center text-white/40 font-light max-w-xl mx-auto">
+          See how Jett turns your natural language into structured tasks — instantly.
         </p>
 
         <LiveDemo isPlaying={isVisible} />
 
         <div className="mt-8 text-center">
-          <p className="text-stone-500">
+          <p className="text-white/40">
             Built to cut through the noise. You speak chaos. Jett returns order.
           </p>
           <div className="mt-6 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
             <Link
               href="/auth/signup"
-              className="rounded-full bg-amber-500 px-8 py-3 text-base font-medium text-white hover:bg-amber-600 transition-colors"
+              className="bg-emerald-600 px-8 py-3 text-sm font-mono font-semibold text-white uppercase tracking-wider
+                hover:bg-emerald-500 transition-all duration-300
+                shadow-[0_0_30px_-5px_rgba(5,150,105,0.3)]
+                hover:shadow-[0_0_40px_-5px_rgba(5,150,105,0.5)]"
+              style={{
+                clipPath: "polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px))",
+              }}
             >
               Get Started with Jett
             </Link>
             <Link
               href="/dashboard/jett"
-              className="text-sm font-medium text-stone-500 hover:text-stone-900 transition-colors"
+              className="text-sm font-mono font-medium text-white/40 hover:text-emerald-500 transition-colors uppercase tracking-wider"
             >
               Read Jett&apos;s story &rarr;
             </Link>

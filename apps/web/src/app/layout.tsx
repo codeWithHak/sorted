@@ -13,8 +13,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "sorted",
-  description: "A universe of agents that work for you.",
+  title: "Sorted — A Universe of AI Agents",
+  description:
+    "Meet the agents of the Sorted Universe. They listen, they act, they learn. Your world, sorted.",
 };
 
 export default function RootLayout({
@@ -23,9 +24,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className="dark">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-[#050505] text-white`}
       >
         {children}
       </body>

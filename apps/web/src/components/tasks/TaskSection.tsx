@@ -48,7 +48,7 @@ export function TaskSection({
     <div className={title === "Completed" ? "opacity-60" : ""}>
       <button
         onClick={() => setCollapsed(!collapsed)}
-        className="flex w-full items-center gap-2 py-2 text-sm font-semibold text-stone-500 hover:text-stone-700 focus-visible:outline-2 focus-visible:outline-amber-500 focus-visible:outline-offset-2"
+        className="flex w-full items-center gap-2 py-2 text-sm font-mono font-semibold text-white/40 hover:text-white/70 focus-visible:outline-2 focus-visible:outline-emerald-500 focus-visible:outline-offset-2 uppercase tracking-wider transition-colors"
         aria-expanded={!collapsed}
       >
         <svg
@@ -61,7 +61,7 @@ export function TaskSection({
           <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
         </svg>
         {title}
-        <span className="text-xs font-normal text-stone-400">({tasks.length})</span>
+        <span className="text-xs font-normal text-white/20">({tasks.length})</span>
       </button>
 
       <AnimatePresence>

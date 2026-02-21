@@ -14,10 +14,10 @@ export function TaskCheckbox({ checked, onChange, ariaLabel }: TaskCheckboxProps
       aria-checked={checked}
       aria-label={ariaLabel}
       onClick={onChange}
-      className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-md border-2 transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-amber-500 focus-visible:outline-offset-2 ${
+      className={`flex h-5 w-5 shrink-0 items-center justify-center border-2 transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-emerald-500 focus-visible:outline-offset-2 ${
         checked
-          ? "border-amber-500 bg-amber-500"
-          : "border-stone-300 hover:border-stone-400"
+          ? "border-emerald-600 bg-emerald-600"
+          : "border-white/20 hover:border-white/40"
       }`}
     >
       {checked && (

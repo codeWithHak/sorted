@@ -15,9 +15,9 @@ export function AgentSidebar({ agents, activeAgentId, isCollapsed }: AgentSideba
   if (isCollapsed) return null;
 
   return (
-    <aside className="flex w-56 shrink-0 flex-col border-r border-stone-200 bg-white">
-      <div className="flex items-center justify-between border-b border-stone-100 px-4 py-3">
-        <h2 className="text-xs font-semibold uppercase tracking-wider text-stone-400">
+    <aside className="flex w-56 shrink-0 flex-col border-r border-white/10 bg-[#0a0a0a]">
+      <div className="flex items-center justify-between border-b border-white/5 px-4 py-3">
+        <h2 className="text-xs font-mono font-semibold uppercase tracking-wider text-white/30">
           Agents
         </h2>
       </div>
@@ -34,7 +34,7 @@ export function AgentSidebar({ agents, activeAgentId, isCollapsed }: AgentSideba
         <div className="mt-4 px-3">
           <Link
             href="/dashboard/jett"
-            className="text-xs text-amber-600 hover:text-amber-700 transition-colors"
+            className="text-xs font-mono text-emerald-600 hover:text-emerald-500 transition-colors uppercase tracking-wider"
           >
             About Jett &rarr;
           </Link>

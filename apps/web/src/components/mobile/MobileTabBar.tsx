@@ -8,13 +8,13 @@ interface MobileTabBarProps {
 
 export function MobileTabBar({ activeTab, onTabChange, taskBadgeCount = 0 }: MobileTabBarProps) {
   return (
-    <div className="flex border-t border-stone-200 bg-white" role="tablist" aria-label="Navigation tabs">
+    <div className="flex border-t border-white/10 bg-black/60 backdrop-blur-xl" role="tablist" aria-label="Navigation tabs">
       <button
         role="tab"
         aria-selected={activeTab === "chat"}
         onClick={() => onTabChange("chat")}
-        className={`flex flex-1 flex-col items-center gap-1 py-2 text-xs font-medium transition-colors ${
-          activeTab === "chat" ? "text-amber-600" : "text-stone-400"
+        className={`flex flex-1 flex-col items-center gap-1 py-2 text-xs font-mono font-medium uppercase tracking-wider transition-colors ${
+          activeTab === "chat" ? "text-emerald-500" : "text-white/30"
         }`}
         aria-label="Chat tab"
       >
@@ -27,8 +27,8 @@ export function MobileTabBar({ activeTab, onTabChange, taskBadgeCount = 0 }: Mob
         role="tab"
         aria-selected={activeTab === "tasks"}
         onClick={() => onTabChange("tasks")}
-        className={`relative flex flex-1 flex-col items-center gap-1 py-2 text-xs font-medium transition-colors ${
-          activeTab === "tasks" ? "text-amber-600" : "text-stone-400"
+        className={`relative flex flex-1 flex-col items-center gap-1 py-2 text-xs font-mono font-medium uppercase tracking-wider transition-colors ${
+          activeTab === "tasks" ? "text-emerald-500" : "text-white/30"
         }`}
         aria-label="Tasks tab"
       >
@@ -37,7 +37,7 @@ export function MobileTabBar({ activeTab, onTabChange, taskBadgeCount = 0 }: Mob
         </svg>
         Tasks
         {taskBadgeCount > 0 && (
-          <span className="absolute right-1/4 top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-amber-500 px-1 text-[10px] font-bold text-white animate-pulse">
+          <span className="absolute right-1/4 top-1 flex h-4 min-w-4 items-center justify-center bg-emerald-600 px-1 text-[10px] font-bold text-white animate-pulse">
             {taskBadgeCount}
           </span>
         )}

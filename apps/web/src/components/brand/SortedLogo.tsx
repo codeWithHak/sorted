@@ -20,11 +20,14 @@ interface SortedLogoProps {
 export function SortedLogo({ isPulsing = false, size = "md" }: SortedLogoProps) {
   return (
     <span className="inline-flex items-baseline gap-0.5">
-      <span className={`${sizeMap[size]} font-semibold tracking-tight text-stone-900`}>
+      <span className={`${sizeMap[size]} font-semibold tracking-tight text-white`}>
         sorted
       </span>
       <span
-        className={`${dotSizeMap[size]} rounded-full bg-amber-500 ${isPulsing ? "animate-pulse" : ""}`}
+        className={`${dotSizeMap[size]} bg-emerald-600 ${isPulsing ? "animate-pulse" : ""}`}
+        style={{
+          boxShadow: "0 0 12px rgba(5, 150, 105, 0.5)",
+        }}
       />
     </span>
   );

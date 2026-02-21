@@ -1,50 +1,81 @@
+"use client";
+
+import { Zap, MessageSquare, CheckCircle } from "lucide-react";
+
 const steps = [
   {
-    icon: (
-      <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-      </svg>
-    ),
+    icon: <MessageSquare className="h-6 w-6" />,
     title: "Talk naturally",
-    description: "Tell Jett what you need in your own words. No forms, no menus.",
+    description:
+      "Tell Jett what you need in your own words. No forms, no menus.",
   },
   {
-    icon: (
-      <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
-      </svg>
-    ),
+    icon: <Zap className="h-6 w-6" />,
     title: "Jett takes action",
-    description: "Your words become tasks, plans, and structure — instantly.",
+    description:
+      "Your words become tasks, plans, and structure — instantly.",
   },
   {
-    icon: (
-      <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-      </svg>
-    ),
+    icon: <CheckCircle className="h-6 w-6" />,
     title: "Stay on track",
-    description: "Check off, reprioritize, and keep moving. Jett adapts with you.",
+    description:
+      "Check off, reprioritize, and keep moving. Jett adapts with you.",
   },
 ];
 
 export function HowItWorksSection() {
   return (
-    <section className="bg-stone-50 py-24">
-      <div className="mx-auto max-w-5xl px-6">
-        <h2 className="text-center text-3xl font-bold tracking-tight text-stone-900">
+    <section className="py-24 relative">
+      {/* Background subtle gradient */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background:
+            "linear-gradient(180deg, #050505 0%, #0a0a0f 50%, #050505 100%)",
+        }}
+        aria-hidden="true"
+      />
+
+      <div className="mx-auto max-w-5xl px-6 relative">
+        <h2 className="text-center text-3xl md:text-4xl font-bold tracking-tight text-white">
           How it works
         </h2>
-        <div className="mt-16 grid grid-cols-1 gap-12 md:grid-cols-3">
-          {steps.map((step) => (
-            <div key={step.title} className="text-center">
-              <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-amber-500 text-white">
-                {step.icon}
+        <p className="mt-4 text-center text-white/40 font-light max-w-xl mx-auto">
+          Three simple steps. No learning curve. Just results.
+        </p>
+
+        <div className="mt-16 grid grid-cols-1 gap-8 md:grid-cols-3">
+          {steps.map((step, i) => (
+            <div
+              key={step.title}
+              className="relative text-center group"
+            >
+              {/* Connecting line (visible between cards on desktop) */}
+              {i < steps.length - 1 && (
+                <div className="hidden md:block absolute top-6 left-[calc(50%+40px)] w-[calc(100%-80px)] h-px border-t border-dashed border-white/10" />
+              )}
+
+              <div
+                className="border border-white/10 bg-white/[0.03] p-8 transition-all duration-500
+                  hover:bg-white/[0.08] hover:shadow-[0_0_40px_-10px_rgba(5,150,105,0.15)]
+                  hover:-translate-y-1 hover:border-emerald-600/30"
+              >
+                <div
+                  className="mx-auto flex h-14 w-14 items-center justify-center
+                    bg-gradient-to-br from-emerald-600 to-cyan-700 text-white
+                    shadow-[0_0_24px_-4px_rgba(5,150,105,0.4)]
+                    group-hover:shadow-[0_0_32px_-4px_rgba(5,150,105,0.6)]
+                    transition-shadow duration-500"
+                >
+                  {step.icon}
+                </div>
+                <h3 className="mt-5 text-lg font-mono font-semibold text-white uppercase tracking-wider">
+                  {step.title}
+                </h3>
+                <p className="mt-2 text-white/40 text-sm leading-relaxed">
+                  {step.description}
+                </p>
               </div>
-              <h3 className="mt-4 text-lg font-semibold text-stone-900">
-                {step.title}
-              </h3>
-              <p className="mt-2 text-stone-500">{step.description}</p>
             </div>
           ))}
         </div>

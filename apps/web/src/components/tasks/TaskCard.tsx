@@ -54,32 +54,32 @@ export function TaskCard({
 
   if (isEditing) {
     return (
-      <div className="rounded-xl border border-stone-200 bg-white p-4" style={{ boxShadow: "var(--shadow-warm)" }}>
+      <div className="border border-white/10 bg-white/[0.03] p-4">
         <input
           type="text"
           value={editTitle}
           onChange={(e) => setEditTitle(e.target.value)}
-          className="w-full rounded-md border border-stone-300 px-3 py-1.5 text-sm outline-none focus:border-stone-500"
+          className="w-full border border-white/10 bg-white/5 px-3 py-1.5 text-sm text-white outline-none focus:border-emerald-600 transition-colors"
           autoFocus
         />
         <textarea
           value={editDesc}
           onChange={(e) => setEditDesc(e.target.value)}
-          className="mt-2 w-full rounded-md border border-stone-300 px-3 py-1.5 text-sm outline-none focus:border-stone-500"
+          className="mt-2 w-full border border-white/10 bg-white/5 px-3 py-1.5 text-sm text-white outline-none focus:border-emerald-600 transition-colors"
           rows={2}
           placeholder="Description (optional)"
         />
         <div className="mt-2 flex justify-end gap-2">
           <button
             onClick={handleCancel}
-            className="rounded-md px-3 py-1 text-sm text-stone-500 hover:text-stone-700"
+            className="px-3 py-1 text-sm text-white/40 hover:text-white/70 transition-colors"
           >
             Cancel
           </button>
           <button
             onClick={handleSave}
             disabled={editTitle.trim().length === 0}
-            className="rounded-md bg-stone-900 px-3 py-1 text-sm font-medium text-white hover:bg-stone-800 disabled:opacity-50"
+            className="bg-emerald-600 px-3 py-1 text-sm font-medium text-white hover:bg-emerald-500 disabled:opacity-50 transition-colors"
           >
             Save
           </button>
@@ -99,18 +99,18 @@ export function TaskCard({
         <p
           className={`font-medium transition-all duration-200 ${
             task.completed
-              ? "text-stone-400 line-through"
-              : "text-stone-900"
+              ? "text-white/20 line-through"
+              : "text-white"
           }`}
         >
           {task.title}
         </p>
         {task.description && (
-          <p className="mt-1 line-clamp-2 text-sm text-stone-500">
+          <p className="mt-1 line-clamp-2 text-sm text-white/40">
             {task.description}
           </p>
         )}
-        <div className="mt-2 flex items-center gap-2 text-xs text-stone-400">
+        <div className="mt-2 flex items-center gap-2 text-xs text-white/30">
           {task.created_by === "agent" && task.agent_id && (
             <span className="flex items-center gap-1">
               <span className="text-amber-500">&#9733;</span>
@@ -123,7 +123,7 @@ export function TaskCard({
       <div className={`flex gap-1 transition-opacity ${confirmDelete ? "opacity-100" : "opacity-0 group-hover:opacity-100"}`}>
         <button
           onClick={() => setIsEditing(true)}
-          className="rounded-md p-1 text-stone-400 hover:bg-stone-100 hover:text-stone-600 focus-visible:outline-2 focus-visible:outline-amber-500"
+          className="p-1 text-white/20 hover:bg-white/10 hover:text-white/60 focus-visible:outline-2 focus-visible:outline-emerald-500 transition-colors"
           aria-label={`Edit "${task.title}"`}
         >
           <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -134,13 +134,13 @@ export function TaskCard({
           <div className="flex items-center gap-1">
             <button
               onClick={() => { onDelete(); setConfirmDelete(false); }}
-              className="rounded-md bg-red-500 px-2 py-0.5 text-xs font-medium text-white hover:bg-red-600"
+              className="bg-red-500 px-2 py-0.5 text-xs font-medium text-white hover:bg-red-600 transition-colors"
             >
               Delete
             </button>
             <button
               onClick={() => setConfirmDelete(false)}
-              className="rounded-md px-2 py-0.5 text-xs text-stone-500 hover:text-stone-700"
+              className="px-2 py-0.5 text-xs text-white/40 hover:text-white/70 transition-colors"
             >
               Cancel
             </button>
@@ -148,7 +148,7 @@ export function TaskCard({
         ) : (
           <button
             onClick={() => setConfirmDelete(true)}
-            className="rounded-md p-1 text-stone-400 hover:bg-red-50 hover:text-red-500 focus-visible:outline-2 focus-visible:outline-amber-500"
+            className="p-1 text-white/20 hover:bg-red-500/10 hover:text-red-400 focus-visible:outline-2 focus-visible:outline-emerald-500 transition-colors"
             aria-label={`Delete "${task.title}"`}
           >
             <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -163,13 +163,12 @@ export function TaskCard({
   if (isNewFromAgent && !prefersReduced) {
     return (
       <motion.div
-        initial={{ opacity: 0, scale: 0.95, backgroundColor: "rgb(255 251 235)" }}
-        animate={{ opacity: 1, scale: 1, backgroundColor: "rgb(255 255 255)" }}
+        initial={{ opacity: 0, scale: 0.95, backgroundColor: "rgba(5, 150, 105, 0.1)" }}
+        animate={{ opacity: 1, scale: 1, backgroundColor: "rgba(255, 255, 255, 0.02)" }}
         transition={{ duration: 0.3, ease: "easeOut", backgroundColor: { duration: 0.5, delay: 0.3 } }}
-        className={`group relative rounded-xl border bg-white p-4 transition-[transform,border-color] duration-200 hover:-translate-y-px hover:border-stone-300 ${
-          isHighlighted ? "border-amber-300" : "border-stone-200"
+        className={`group relative border bg-white/[0.02] p-4 transition-[transform,border-color] duration-200 hover:-translate-y-px hover:border-white/20 ${
+          isHighlighted ? "border-emerald-600/40" : "border-white/10"
         }`}
-        style={{ boxShadow: "var(--shadow-warm)" }}
       >
         {cardContent}
       </motion.div>
@@ -178,12 +177,11 @@ export function TaskCard({
 
   return (
     <div
-      className={`group relative rounded-xl border bg-white p-4 transition-all duration-200 hover:-translate-y-px hover:border-stone-300 ${
+      className={`group relative border bg-white/[0.02] p-4 transition-all duration-200 hover:-translate-y-px hover:border-white/20 ${
         isHighlighted
-          ? "border-amber-300 bg-amber-50"
-          : "border-stone-200"
+          ? "border-emerald-600/40 bg-emerald-600/5"
+          : "border-white/10"
       }`}
-      style={{ boxShadow: "var(--shadow-warm)" }}
     >
       {cardContent}
     </div>

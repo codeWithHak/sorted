@@ -57,8 +57,8 @@ export function ChatInput({ onSubmit, disabled = false }: ChatInputProps) {
   }
 
   return (
-    <div ref={containerRef} className="border-t border-stone-200 bg-stone-50 p-3">
-      <div className="flex items-end gap-2 rounded-xl border border-stone-300 bg-white px-3 py-2">
+    <div ref={containerRef} className="border-t border-white/10 bg-black/40 p-3">
+      <div className="flex items-end gap-2 border border-white/10 bg-white/5 px-3 py-2">
         <textarea
           ref={textareaRef}
           value={value}
@@ -67,16 +67,16 @@ export function ChatInput({ onSubmit, disabled = false }: ChatInputProps) {
           placeholder="Ask Jett to plan your day..."
           disabled={disabled}
           rows={1}
-          className="flex-1 resize-none bg-transparent text-sm outline-none placeholder:text-stone-400 disabled:opacity-50"
+          className="flex-1 resize-none bg-transparent text-sm text-white outline-none placeholder:text-white/20 disabled:opacity-50"
           aria-label="Message Jett"
         />
         <button
           onClick={handleSubmit}
           disabled={disabled || value.trim().length === 0}
-          className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-lg transition-colors focus-visible:outline-2 focus-visible:outline-amber-500 ${
+          className={`flex h-7 w-7 shrink-0 items-center justify-center transition-colors focus-visible:outline-2 focus-visible:outline-emerald-500 ${
             value.trim().length > 0 && !disabled
-              ? "bg-amber-500 text-white hover:bg-amber-600"
-              : "bg-stone-200 text-stone-400"
+              ? "bg-emerald-600 text-white hover:bg-emerald-500 shadow-[0_0_12px_rgba(5,150,105,0.3)]"
+              : "bg-white/10 text-white/20"
           }`}
           aria-label="Send message"
         >

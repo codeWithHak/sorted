@@ -50,9 +50,12 @@ class Settings(BaseSettings):
         return [origin.strip() for origin in self.cors_origins.split(",") if origin.strip()]
 
 
+_settings: Settings | None = None
+
+
 def get_settings() -> Settings:
     """
-    Get application settings.
+    Get cached application settings.
 
     Returns:
         Settings instance with validated configuration.
@@ -60,4 +63,7 @@ def get_settings() -> Settings:
     Raises:
         ValueError: If required configuration is missing.
     """
-    return Settings()
+    global _settings
+    if _settings is None:
+        _settings = Settings()
+    return _settings

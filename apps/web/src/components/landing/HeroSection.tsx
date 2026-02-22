@@ -242,15 +242,15 @@ export function HeroSection() {
       />
 
       {/* Content */}
-      <div className="relative z-10 flex flex-col items-center text-center px-6 max-w-5xl mx-auto">
+      <div className="relative z-10 flex flex-col items-center text-center px-4 sm:px-6 max-w-5xl mx-auto">
         {/* Eyebrow badge */}
         <div ref={badgeRef}>
           <button
             onClick={scrollToAgents}
-            className="group mb-8 cursor-pointer"
+            className="group mb-6 sm:mb-8 cursor-pointer"
           >
             <span
-              className="inline-flex items-center gap-2 px-5 py-2 text-sm font-mono font-medium tracking-widest uppercase
+              className="inline-flex items-center gap-2 px-4 sm:px-5 py-2 text-xs sm:text-sm font-mono font-medium tracking-widest uppercase
                 bg-white/10 backdrop-blur-md border border-white/20 text-white/70
                 hover:border-emerald-600/40 transition-colors"
             >
@@ -263,7 +263,7 @@ export function HeroSection() {
         {/* Main headline */}
         <h1
           ref={headingRef}
-          className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tighter leading-[0.95] text-white"
+          className="text-[2.5rem] sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tighter leading-[0.95] text-white"
         >
           <span className="block bg-gradient-to-b from-white via-white to-white/40 bg-clip-text text-transparent">
             A universe of agents
@@ -276,23 +276,23 @@ export function HeroSection() {
         {/* Subtitle */}
         <p
           ref={subtitleRef}
-          className="mt-8 text-lg md:text-xl text-white/60 max-w-2xl leading-relaxed font-light"
+          className="mt-6 sm:mt-8 text-base sm:text-lg md:text-xl text-white/60 max-w-2xl leading-relaxed font-light"
         >
           Meet the agents of the Sorted Universe.
           They listen, they act, they
-          learn. <br></br>Start with Jett. Your task agent, and watch your world get
+          learn. <br className="hidden sm:block" />Start with Jett. Your task agent, and watch your world get
           sorted.
         </p>
 
         {/* CTAs */}
         <div
           ref={ctaRef}
-          className="mt-10 flex flex-col sm:flex-row flex-wrap items-center justify-center gap-3 sm:gap-4"
+          className="mt-8 sm:mt-10 flex flex-wrap items-center justify-center gap-3 sm:gap-4"
         >
-          <RadialGlowButton variant="primary" size="md" onClick={scrollToAgents}>
+          <RadialGlowButton variant="primary" size="lg" onClick={scrollToAgents}>
             Meet Your Agents
           </RadialGlowButton>
-          <RadialGlowButton variant="ghost" size="md" href="/auth/signup">
+          <RadialGlowButton variant="ghost" size="lg" href="/auth/signup">
             Get Started
           </RadialGlowButton>
         </div>
@@ -300,7 +300,7 @@ export function HeroSection() {
         {/* Micro details */}
         <ul
           ref={microRef}
-          className="mt-10 flex flex-wrap justify-center gap-6 text-xs font-light tracking-tight text-white/50"
+          className="mt-8 sm:mt-10 flex flex-wrap justify-center gap-4 sm:gap-6 text-xs font-light tracking-tight text-white/50"
         >
           {["Always learning", "Always adapting", "Always sorted"].map(
             (detail) => (

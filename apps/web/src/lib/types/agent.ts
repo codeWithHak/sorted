@@ -19,6 +19,7 @@ export interface Agent {
   status: AgentStatus;
   tagline: string;
   lore: AgentLore | null;
+  portrait?: string;
 }
 
 export type AgentActivityStatus = "idle" | "thinking" | "acting";

@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Sorted — A Universe of AI Agents",
+  title: "Sorted - A Universe of AI Agents",
   description:
     "Meet the agents of the Sorted Universe. They listen, they act, they learn. Your world, sorted.",
 };

@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { SortedLogo } from "./SortedLogo";
+import { RadialGlowButton } from "./RadialGlowButton";
 
 export function Navbar() {
   return (
@@ -14,26 +15,17 @@ export function Navbar() {
           <SortedLogo size="md" />
         </Link>
 
-        <div className="flex items-center gap-1">
+        <div className="flex items-center gap-2">
           <Link
             href="/auth/signin"
-            className="px-4 py-2 text-sm font-mono font-medium text-white/50 hover:text-emerald-500
+            className="px-4 py-2 text-sm font-mono font-medium text-white/50 hover:text-emerald-400
               tracking-wider uppercase transition-colors"
           >
             Sign in
           </Link>
-          <Link
-            href="/auth/signup"
-            className="relative px-6 py-2 text-sm font-mono font-semibold text-white tracking-wider uppercase
-              bg-emerald-600 hover:bg-emerald-500 transition-all duration-300
-              shadow-[0_0_20px_-5px_rgba(5,150,105,0.4)]
-              hover:shadow-[0_0_30px_-5px_rgba(5,150,105,0.6)]"
-            style={{
-              clipPath: "polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px))",
-            }}
-          >
+          <RadialGlowButton variant="primary" size="sm" href="/auth/signup">
             Get Started
-          </Link>
+          </RadialGlowButton>
         </div>
       </div>
     </nav>

@@ -5,7 +5,7 @@ export const agents: Agent[] = [
     id: "jett",
     name: "Jett",
     role: "Task Agent",
-    accentColor: "amber",
+    accentColor: "emerald",
     status: "active",
     tagline: "You speak chaos. Jett returns order.",
     lore: {

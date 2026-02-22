@@ -7,6 +7,7 @@ import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { SplitText } from "gsap/SplitText";
 import { ChevronRight } from "lucide-react";
+import { RadialGlowButton } from "@/components/brand/RadialGlowButton";
 
 gsap.registerPlugin(SplitText, useGSAP);
 
@@ -277,8 +278,9 @@ export function HeroSection() {
           ref={subtitleRef}
           className="mt-8 text-lg md:text-xl text-white/60 max-w-2xl leading-relaxed font-light"
         >
-          Meet the agents of the Sorted Universe. They listen, they act, they
-          learn. Start with Jett — your task agent — and watch your world get
+          Meet the agents of the Sorted Universe.
+          They listen, they act, they
+          learn. <br></br>Start with Jett. Your task agent, and watch your world get
           sorted.
         </p>
 
@@ -287,27 +289,12 @@ export function HeroSection() {
           ref={ctaRef}
           className="mt-10 flex flex-wrap items-center justify-center gap-4"
         >
-          <button
-            onClick={scrollToAgents}
-            className="px-8 py-3.5 bg-emerald-600 text-white font-mono font-semibold text-sm uppercase tracking-wider
-              hover:bg-emerald-500 transition-all duration-300 cursor-pointer
-              shadow-[0_0_40px_-5px_rgba(5,150,105,0.5)]
-              hover:shadow-[0_0_60px_-5px_rgba(5,150,105,0.7)]"
-            style={{
-              clipPath: "polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 14px 100%, 0 calc(100% - 14px))",
-            }}
-          >
+          <RadialGlowButton variant="primary" size="lg" onClick={scrollToAgents}>
             Meet Your Agents
-          </button>
-          <a
-            href="/auth/signup"
-            className="px-8 py-3.5 text-sm font-mono font-medium uppercase tracking-wider
-              bg-white/10 backdrop-blur-md border border-white/20
-              text-white/80 hover:text-white hover:border-emerald-600/40
-              transition-all duration-300"
-          >
+          </RadialGlowButton>
+          <RadialGlowButton variant="ghost" size="lg" href="/auth/signup">
             Get Started
-          </a>
+          </RadialGlowButton>
         </div>
 
         {/* Micro details */}

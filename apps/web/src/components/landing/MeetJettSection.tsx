@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { LiveDemo } from "./LiveDemo";
+import { RadialGlowButton } from "@/components/brand/RadialGlowButton";
 
 export function MeetJettSection() {
   const [isVisible, setIsVisible] = useState(false);
@@ -47,21 +48,12 @@ export function MeetJettSection() {
             Built to cut through the noise. You speak chaos. Jett returns order.
           </p>
           <div className="mt-6 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
-            <Link
-              href="/auth/signup"
-              className="bg-emerald-600 px-8 py-3 text-sm font-mono font-semibold text-white uppercase tracking-wider
-                hover:bg-emerald-500 transition-all duration-300
-                shadow-[0_0_30px_-5px_rgba(5,150,105,0.3)]
-                hover:shadow-[0_0_40px_-5px_rgba(5,150,105,0.5)]"
-              style={{
-                clipPath: "polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px))",
-              }}
-            >
+            <RadialGlowButton variant="primary" size="md" href="/auth/signup">
               Get Started with Jett
-            </Link>
+            </RadialGlowButton>
             <Link
-              href="/dashboard/jett"
-              className="text-sm font-mono font-medium text-white/40 hover:text-emerald-500 transition-colors uppercase tracking-wider"
+              href="/agents/jett"
+              className="text-sm font-mono font-medium text-white/40 hover:text-emerald-400 transition-colors uppercase tracking-wider"
             >
               Read Jett&apos;s story &rarr;
             </Link>

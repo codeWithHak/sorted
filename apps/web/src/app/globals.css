@@ -25,6 +25,14 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+  user-select: none;
+  cursor: default;
+  /* Vendor prefixes for broader compatibility (especially older Safari/IE) */
+  -webkit-user-select: none; /* Safari, Chrome, Opera */
+  -moz-user-select: none;    /* Firefox */
+  -ms-user-select: none;     /* Internet Explorer/Edge */
+  /* Prevents the default callout menu on iOS touch devices */
+  -webkit-touch-callout: none; 
 }
 
 /* ─── Glass Morphism Utilities ─── */
@@ -124,13 +132,41 @@ body {
   box-shadow: 0 0 60px -12px rgba(139, 92, 246, 0.3);
 }
 
+/* ─── Radial Glow Button Interactions ─── */
+
+/* Primary — emerald glow intensifies */
+.radial-glow-btn-wrapper:hover .radial-glow-btn--primary {
+  transform: scale(1.03);
+  filter: drop-shadow(0 0 20px rgba(5, 150, 105, 0.4));
+}
+.radial-glow-btn-wrapper:active .radial-glow-btn--primary {
+  transform: scale(0.97);
+}
+.radial-glow-btn-wrapper:hover .radial-glow-btn--primary .radial-glow-btn__inner {
+  background: radial-gradient(circle 80px at 80% -50%, #22805a, #081f18) !important;
+}
+
+/* Ghost — border brightens, subtle emerald wash */
+.radial-glow-btn-wrapper:hover .radial-glow-btn--ghost {
+  border-color: rgba(5, 150, 105, 0.4);
+  box-shadow: 0 0 16px rgba(5, 150, 105, 0.12);
+  transform: scale(1.02);
+}
+.radial-glow-btn-wrapper:active .radial-glow-btn--ghost {
+  transform: scale(0.97);
+}
+.radial-glow-btn-wrapper:hover .radial-glow-btn--ghost .radial-glow-btn__inner {
+  background: radial-gradient(circle 80px at 80% -50%, rgba(5, 150, 105, 0.12), transparent) !important;
+  color: #fff !important;
+}
+
 /* ─── Reduced Motion ─── */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
   *::after {
-    animation-duration: 0.01ms !important;
+    animation-duration: 0.1ms !important;
     animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
+    transition-duration: 0.1ms !important;
   }
 }

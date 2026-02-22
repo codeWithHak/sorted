@@ -33,7 +33,7 @@ export function AgentSidebar({ agents, activeAgentId, isCollapsed }: AgentSideba
         </div>
         <div className="mt-4 px-3">
           <Link
-            href="/dashboard/jett"
+            href="/agents/jett"
             className="text-xs font-mono text-emerald-600 hover:text-emerald-500 transition-colors uppercase tracking-wider"
           >
             About Jett &rarr;

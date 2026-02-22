@@ -2,7 +2,9 @@
 
 import { useRef, useState, useEffect } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { RadialGlowButton } from "@/components/brand/RadialGlowButton";
 
 interface Agent {
   name: string;
@@ -13,21 +15,23 @@ interface Agent {
   borderColor: string;
   available: boolean;
   href?: string;
+  storyHref?: string;
 }
 
 const agents: Agent[] = [
   {
     name: "Jett",
     role: "Task Agent",
-    abilities: ["Create tasks", "Prioritize", "Natural language"],
+    abilities: ["Manage tasks", "Give Consultancy", "Fast"],
     portrait: "/jett.jpg",
     glowColor: "rgba(5, 150, 105, 0.4)",
     borderColor: "border-emerald-600/30",
     available: true,
-    href: "/dashboard/jett",
+    href: "/agents/jett",
+    storyHref: "/agents/jett",
   },
   {
-    name: "Aria",
+    name: "Yamal",
     role: "Calendar Agent",
     abilities: ["Scheduling", "Reminders", "Time blocking"],
     portrait: "/aria.jpg",
@@ -36,18 +40,18 @@ const agents: Agent[] = [
     available: false,
   },
   {
-    name: "Flux",
+    name: "Drago",
     role: "Notes Agent",
-    abilities: ["Capture ideas", "Organize", "Link thoughts"],
+    abilities: ["Capture ideas", "Organize Event", "Smart"],
     portrait: "/flux.jpg",
     glowColor: "rgba(139, 92, 246, 0.4)",
     borderColor: "border-violet-500/30",
     available: false,
   },
   {
-    name: "Pulse",
+    name: "Iori",
     role: "Habits Agent",
-    abilities: ["Track habits", "Streaks", "Daily routines"],
+    abilities: ["Track habits", "Fitness", "Strict"],
     portrait: "/pulse.jpg",
     glowColor: "rgba(132, 204, 22, 0.4)",
     borderColor: "border-lime-500/30",
@@ -65,7 +69,7 @@ function AgentCard({ agent }: { agent: Agent }) {
       style={{ "--glow": agent.glowColor } as React.CSSProperties}
     >
       {/* Portrait area with real AI image */}
-      <div className="relative h-80 sm:h-96 overflow-hidden">
+      <div className="relative h-96 sm:h-[28rem] overflow-hidden">
         <Image
           src={agent.portrait}
           alt={`${agent.name} — ${agent.role}`}
@@ -101,7 +105,7 @@ function AgentCard({ agent }: { agent: Agent }) {
       </div>
 
       {/* Card content */}
-      <div className="flex flex-col flex-1 p-5 border-t border-white/5">
+      <div className="flex flex-col flex-1 min-h-[200px] p-6 border-t border-white/5">
         {/* Name and role */}
         <h3 className="text-2xl font-bold text-white tracking-tight">
           {agent.name}
@@ -123,29 +127,23 @@ function AgentCard({ agent }: { agent: Agent }) {
         </div>
 
         {/* Action */}
-        <div className="mt-auto pt-5">
+        <div className="mt-auto pt-5 flex items-center gap-4">
           {agent.available && agent.href ? (
-            <a
-              href={agent.href}
-              className="inline-flex w-full items-center justify-center bg-emerald-600 px-6 py-3
-                text-sm font-mono font-semibold text-white uppercase tracking-wider
-                hover:bg-emerald-500 transition-all duration-300
-                shadow-[0_0_20px_-5px_rgba(5,150,105,0.3)]
-                hover:shadow-[0_0_30px_-5px_rgba(5,150,105,0.5)]"
-              style={{
-                clipPath:
-                  "polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px))",
-              }}
-            >
+            <RadialGlowButton variant="primary" size="md" href={agent.href}>
               Deploy {agent.name}
-            </a>
+            </RadialGlowButton>
           ) : (
-            <div
-              className="inline-flex w-full items-center justify-center bg-white/5 px-6 py-3
-                text-sm font-mono font-medium text-white/20 border border-white/10 cursor-not-allowed uppercase tracking-wider"
-            >
+            <RadialGlowButton variant="standby" size="md">
               Standby
-            </div>
+            </RadialGlowButton>
+          )}
+          {agent.storyHref && (
+            <Link
+              href={agent.storyHref}
+              className="text-xs font-mono text-white/35 hover:text-emerald-400 transition-colors uppercase tracking-wider"
+            >
+              Read story &rarr;
+            </Link>
           )}
         </div>
       </div>
@@ -241,7 +239,7 @@ export function AgentShowcase() {
         {/* Cards — horizontal scroll, 3 visible at a time */}
         <div
           ref={scrollRef}
-          className="flex gap-6 overflow-x-auto pb-4
+          className="flex items-stretch gap-6 overflow-x-auto pb-4
             scrollbar-none [-ms-overflow-style:none] [scrollbar-width:none]
             [&::-webkit-scrollbar]:hidden"
         >

@@ -6,7 +6,7 @@ import { RadialGlowButton } from "./RadialGlowButton";
 
 export function Navbar() {
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-black/60 backdrop-blur-xl border-b border-emerald-600/20">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-black/60 backdrop-blur-xl border-b border-emerald-600/20 overflow-x-clip">
       {/* Accent glow line */}
       <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-emerald-600/40 to-transparent" />
 

@@ -5,9 +5,9 @@ import { ReactNode } from "react";
 
 /* ─── Size tokens ─── */
 const sizes = {
-  sm: { padding: "10px 20px", fontSize: "0.8rem", outerRadius: 12, innerRadius: 10, blobW: "50px" },
-  md: { padding: "14px 28px", fontSize: "0.9rem", outerRadius: 16, innerRadius: 14, blobW: "70px" },
-  lg: { padding: "16px 34px", fontSize: "1rem",  outerRadius: 18, innerRadius: 16, blobW: "85px" },
+  sm: { padding: "8px 16px", fontSize: "0.75rem", outerRadius: 12, innerRadius: 10, blobW: "50px" },
+  md: { padding: "12px 24px", fontSize: "0.85rem", outerRadius: 16, innerRadius: 14, blobW: "70px" },
+  lg: { padding: "14px 28px", fontSize: "0.95rem",  outerRadius: 18, innerRadius: 16, blobW: "85px" },
 };
 
 /* ─────────────────────────────────────────────

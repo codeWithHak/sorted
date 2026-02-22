@@ -287,12 +287,12 @@ export function HeroSection() {
         {/* CTAs */}
         <div
           ref={ctaRef}
-          className="mt-10 flex flex-wrap items-center justify-center gap-4"
+          className="mt-10 flex flex-col sm:flex-row flex-wrap items-center justify-center gap-3 sm:gap-4"
         >
-          <RadialGlowButton variant="primary" size="lg" onClick={scrollToAgents}>
+          <RadialGlowButton variant="primary" size="md" onClick={scrollToAgents}>
             Meet Your Agents
           </RadialGlowButton>
-          <RadialGlowButton variant="ghost" size="lg" href="/auth/signup">
+          <RadialGlowButton variant="ghost" size="md" href="/auth/signup">
             Get Started
           </RadialGlowButton>
         </div>

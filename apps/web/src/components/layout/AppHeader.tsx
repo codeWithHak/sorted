@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { SortedLogo } from "@/components/brand/SortedLogo";
 
 interface AppHeaderProps {
@@ -25,13 +26,15 @@ export function AppHeader({ userEmail, isAgentActive, onSignOut, onToggleSidebar
             <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
           </svg>
         </button>
-        <SortedLogo isPulsing={isAgentActive} />
+        <Link href="/" className="flex items-center">
+          <SortedLogo isPulsing={isAgentActive} />
+        </Link>
       </div>
-      <div className="flex items-center gap-3">
-        <span className="text-sm font-mono text-white/30">{userEmail}</span>
+      <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+        <span className="hidden sm:inline text-sm font-mono text-white/30 truncate max-w-[180px]">{userEmail}</span>
         <button
           onClick={onSignOut}
-          className="border border-white/10 px-3 py-1 text-sm font-mono text-white/40 hover:bg-white/10 hover:text-white/70 transition-colors uppercase tracking-wider"
+          className="border border-white/10 px-2 sm:px-3 py-1 text-xs sm:text-sm font-mono text-white/40 hover:bg-white/10 hover:text-white/70 transition-colors uppercase tracking-wider whitespace-nowrap"
         >
           Sign out
         </button>
